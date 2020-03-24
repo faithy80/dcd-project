@@ -1,0 +1,23 @@
+{% for recipe in recipes %}
+    <img style="width: 300px;" src = "{{recipe.img_link}}" alt = "sample picture" />
+    <p> Title: {{recipe.title}} </p>
+    <p> Category: {{recipe.category}} </p>
+    <p> Ingredients: </p>
+    <ul>
+        {% for ingredient in recipe.ingredients %}
+            <li> {{ingredient}} </li>
+        {% endfor %}
+    </ul>
+    <p> Method:</p>
+    <ul>
+        {% for steps in recipe.method %}
+            <li> {{steps}} </li>
+        {% endfor %}
+    </ul>
+    <p>Reviews:</p>
+        {% for review in recipe.reviews %}
+            <li>{{review}}</li>
+        {% endfor %}
+    <p>Servings: {{recipe.servings}}</p>
+    <p>Viewed {{recipe.view_stat}} times.</p>
+{% endfor %}
