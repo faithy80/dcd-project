@@ -1,0 +1,112 @@
+/* ---------------------------- Import fonts */
+
+@import url('https://fonts.googleapis.com/css?family=Roboto|Exo|Open+Sans&display=swap');
+
+/* ---------------------------- main section */
+
+.navbar .navbar-brand {
+    font-size: 2rem;
+    transition: color 0.5s ease;
+    color: #fff;
+}
+
+.navbar .navbar-brand:hover {
+    color: #f4951d;
+}
+
+/* ---------------------------- main section */
+
+.main-container {
+    font-family: 'Roboto', sans-serif;
+    height: 100vh;
+    background: url(../images/main.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    position: relative;
+}
+
+.callout {
+    position: absolute;
+    color: #000;
+    text-align: center;
+    top: 50%;
+}
+
+.callout h3{
+    padding-bottom: 3rem;
+}
+
+/* ---------------------------- footer section */
+
+.footer-container {
+    font-family: 'Exo', sans-serif;
+    background-color: #525252;
+    color: #fff;
+}
+
+.footer-container h4 {
+    padding-top: 2rem;
+    padding-bottom: 1rem;
+}
+
+.footer-container hr {
+    background-color: #fff;
+    width: 15%;
+}
+
+.footer-container a i{
+    padding: 1rem 1rem 2rem 1rem;
+    font-size: 2rem;
+    transition: color 0.5s ease;
+    color: #fff;
+}
+
+.footer-container a i:hover {
+    color: #f4951d;
+}
+
+.copyright {
+    font-size: 0.75rem;
+    padding-bottom: 2rem;
+}
+
+/* ---------------------------- other */
+
+.btn-custom {
+    min-width: 8rem;
+    border-radius: 25px;
+}
+
+.btn--orange {
+    color: #fff;
+    background-color: #f4951d;
+    border-color: #cc7b19;
+}
+
+.btn--orange:hover,
+.btn--orange:active,
+.btn--orange:focus,
+.btn--orange:active:focus {
+    color: #fff;
+    background-color: #cc7b19;
+}
+
+/* ---------------------------- media queries */
+
+@media (max-width: 991px) {
+    .footer-container hr {
+        width: 30%;
+    }
+
+    .footer-container a i {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+
+    .callout {
+        top: 40%;
+    }
+}
