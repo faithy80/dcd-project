@@ -1,29 +1,31 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    
-{% for recipe in recipes %}
-    <img style="width: 300px;" src = "{{recipe.img_link}}" alt = "sample picture" />
-    <p> Title: {{recipe.title}} </p>
-    <p> Category: {{recipe.category}} </p>
-    <p> Ingredients: </p>
-    <ul>
-    {% for ingredient in recipe.ingredients %}
-        <li> {{ingredient}} </li>
-    {% endfor %}
-    </ul>
-    <p> Method:</p>
-    <ul>
-    {% for steps in recipe.method %}
-        <li> {{steps}} </li>
-    {% endfor %}
-    </ul>
-    <p>Reviews:</p>
-    {% for review in recipe.reviews %}
-        <li>{{review}}</li>
-    {% endfor %}
-    <p>Servings: {{recipe.servings}}</p>
-    <p>Viewed {{recipe.view_stat}} times.</p>
-{% endfor %}
+
+<!-- Search section -->
+<section class="container-fluid search-container">
+    <div class="row">
+        {% for recipe in recipes %}        
+        <div class="col-sm-6 col-lg-4 col-xl-3 card-pos">
+            <div class="card">
+                <img class="card-img-top" src="{{recipe.img_link}}" alt="Recipe image">
+
+                <div class="card-body text-center">
+                    <h5 class="card-title">
+                        <a href="#" class="btn btn-link">{{recipe.title}}</a>
+                    </h5>
+
+                    <p>Viewed: {{recipe.view_stat}} times</p>
+
+                    <div class="card-button">
+                        <a href="#" class="btn btn-primary btn--orange">Edit</a>
+                        <a href="#" class="btn btn-primary btn--orange">Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
 
 {% endblock %}

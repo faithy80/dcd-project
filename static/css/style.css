@@ -39,6 +39,44 @@
     padding-bottom: 3rem;
 }
 
+/* ---------------------------- search section */
+
+.search-container {
+    padding: 6% 10% 3% 10%;
+    font-family: 'Roboto', sans-serif;
+    min-height: 100vh;
+}
+
+.card{
+    width: 300px;
+    margin: 0 auto;
+}
+
+.card-img-top {
+    height: 300px;
+}
+
+.card-body {
+    padding-top: 0;
+}
+
+.card-pos {
+    padding: 1rem;
+}
+
+.card-button {
+    display: inline;
+}
+
+.card-button .btn {
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
 /* ---------------------------- footer section */
 
 .footer-container {
@@ -76,7 +114,11 @@
 /* ---------------------------- other */
 
 .btn-custom {
-    min-width: 8rem;
+    min-width: 12rem;
+    border-radius: 25px;
+}
+
+.btn-search {
     border-radius: 25px;
 }
 
