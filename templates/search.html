@@ -2,30 +2,98 @@
 
 {% block content %}
 
-<!-- Search section -->
-<section class="container-fluid search-container">
-    <div class="row">
-        {% for recipe in recipes %}        
-        <div class="col-sm-6 col-lg-4 col-xl-3 card-pos">
-            <div class="card">
-                <img class="card-img-top" src="{{recipe.img_link}}" alt="Recipe image">
+{% if recipes %}
+    <!-- Search section -->
+    <section class="container-fluid search-container">
+        <div class="row">
+            {% for recipe in recipes %}        
+            <div class="col-sm-6 col-lg-4 col-xl-3 card-pos">
+                <div class="card">
+                    <img class="card-img-top" src="{{recipe.img_link}}" alt="Recipe image">
 
-                <div class="card-body text-center">
-                    <h5 class="card-title">
-                        <a href="#" class="btn btn-link">{{recipe.title}}</a>
-                    </h5>
+                    <div class="card-body text-center">
+                        <h5 class="card-title">
+                            <a href="#" class="btn btn-link">{{recipe.title}}</a>
+                        </h5>
 
-                    <p>Viewed: {{recipe.view_stat}} times</p>
+                        <p>Viewed: {{recipe.view_stat}} times</p>
 
-                    <div class="card-button">
-                        <a href="#" class="btn btn-primary btn--orange">Edit</a>
-                        <a href="#" class="btn btn-primary btn--orange">Delete</a>
+                        <div class="card-button">
+                            <a href="#" class="btn btn-primary btn--orange">Edit</a>
+                            <a href="#" class="btn btn-primary btn--orange">Delete</a>
+                        </div>
                     </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-    </div>
-</section>
+    </section>
+
+{% elif recipe_categories %}
+    <!-- Search section -->
+    <section class="container-fluid search-container">
+        <div class="row">
+            {% for category in recipe_categories %}        
+            <div class="col-sm-6 col-lg-4 col-xl-3 card-pos">
+                <div class="card">
+                    <img class="card-img-top" src="{{category.img_link}}" alt="Category image">
+
+                    <div class="card-body text-center">
+                        <h5 class="card-title">
+                            <a href="#" class="btn btn-link">{{category.name}}</a>
+                        </h5>
+
+                        <div class="card-button">
+                            <a href="#" class="btn btn-primary btn--orange">Edit</a>
+                            <a href="#" class="btn btn-primary btn--orange">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+{% elif appliances %}
+    <!-- Search section -->
+    <section class="container-fluid search-container">
+        <div class="row">
+            {% for appliance in appliances %}        
+            <div class="col-sm-6 col-lg-4 col-xl-3 card-pos">
+                <div class="card">
+                    <img class="card-img-top" src="{{appliance.img_link}}" alt="Appliance image">
+
+                    <div class="card-body text-center">
+                        <h5 class="card-title">
+                            <a href="#" class="btn btn-link">{{appliance.brand}} {{appliance.model}}</a>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+{% elif appliance_categories %}
+    <!-- Search section -->
+    <section class="container-fluid search-container">
+        <div class="row">
+            {% for category in appliance_categories %}        
+            <div class="col-sm-6 col-lg-4 col-xl-3 card-pos">
+                <div class="card">
+                    <img class="card-img-top" src="{{category.img_link}}" alt="Category image">
+
+                    <div class="card-body text-center">
+                        <h5 class="card-title">
+                            <a href="#" class="btn btn-link">{{category.name}}</a>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+{% endif %}
 
 {% endblock %}
