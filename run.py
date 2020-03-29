@@ -29,6 +29,11 @@ def search():
         return 'Bad arguments!'
 
 
+@app.route('/view')
+def view():
+    return render_template('view.html')
+
+
 if __name__ == '__main__':
     app.run(host=os.getenv('IP', '0.0.0.0'),
             port=int(os.getenv('PORT', '5000')),

@@ -2,7 +2,7 @@
 
 @import url('https://fonts.googleapis.com/css?family=Roboto|Exo|Open+Sans&display=swap');
 
-/* ---------------------------- main section */
+/* ---------------------------- nav section */
 
 .navbar .navbar-brand {
     font-size: 2rem;
@@ -71,6 +71,14 @@
     margin-right: 0.5rem;
     padding-top: 0;
     padding-bottom: 0;
+}
+
+/* ---------------------------- search section */
+
+.view-container {
+    padding: 6rem 10% 3% 10%;
+    font-family: 'Roboto', sans-serif;
+    min-height: 100vh;
 }
 
 /* ---------------------------- footer section */
