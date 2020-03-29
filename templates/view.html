@@ -2,13 +2,56 @@
 
 {% block content %}
 
+{% if recipe %}
+
 <!-- view section -->
 <section class="container-fluid view-container">
     <div class="row">
         <div class="col-12">
-            <h1>It works!</h1>
+            <img style="width: 300px;" src="{{recipe.img_link}}"/>
+            <h2>{{recipe.title}}</h2>
+            <p>Category: {{recipe.category}}</p>
+            <p>Servings: {{recipe.servings}}</p>
+            <p>Ingredients:</p>
+            <ul>
+                {% for ingredient in recipe.ingredients %}
+                    <li>{{ingredient}}</li>
+                {% endfor %}
+            </ul>
+            <p>Method:</p>
+            <ul>
+                {% for step in recipe.method %}
+                    <li>{{step}}</li>
+                {% endfor %}
+            </ul>
+            <p>Reviews:</p>
+            <ul>
+                {% for review in recipe.reviews %}
+                    <li>{{review}}</li>
+                {% endfor %}
+            </ul>
+            <p>Vieved: {{recipe.view_stat}} times</p>
         </div>
     </div>
 </section>
+
+{% elif appliance %}
+
+<!-- view section -->
+<section class="container-fluid view-container">
+    <div class="row">
+        <div class="col-12">
+            <img style="width: 300px;" src="{{appliance.img_link}}"/>
+            <h2>{{appliance.brand}} {{appliance.model}}</h2>
+            <p>Category: {{appliance.type}}</p>
+            <p>Fuel type: {{appliance.fuel_type}}</p>
+            <p>Colour: {{appliance.colour}}</p>
+            <p>Description: {{appliance.description}}</p>
+            <p>Price: {{appliance.price}} euro</p>
+        </div>
+    </div>
+</section>
+
+{% endif %}
 
 {% endblock %}

@@ -1,6 +1,7 @@
 import os
 from flask import Flask, render_template, request, url_for
 from flask_pymongo import PyMongo
+from bson.objectid import ObjectId
 
 app = Flask(__name__)
 
@@ -29,9 +30,14 @@ def search():
         return 'Bad arguments!'
 
 
-@app.route('/view')
-def view():
-    return render_template('view.html')
+@app.route('/view/<db_id>', methods=['GET'])
+def view(db_id):
+    if request.args['collection'] == 'recipes':
+        return render_template('view.html', recipe = mongo.db.recipes.find_one({"_id": ObjectId(db_id)}))
+    elif request.args['collection'] == 'appliances':
+        return render_template('view.html', appliance = mongo.db.appliances.find_one({"_id": ObjectId(db_id)}))
+    else:
+        return 'Bad arguments!'
 
 
 if __name__ == '__main__':
