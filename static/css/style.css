@@ -48,12 +48,12 @@
 }
 
 .card{
-    width: 300px;
+    max-width: 18.75rem;
     margin: 0 auto;
 }
 
 .card-img-top {
-    height: 300px;
+    max-height: 18.75rem;
 }
 
 .card-pos {
