@@ -19,11 +19,17 @@ def index():
 @app.route('/search', methods=['GET'])
 def search():
     if request.args['collection'] == 'recipes':
-        return render_template('search.html', recipes = mongo.db.recipes.find())
+        if request.args['find'] == 'all':
+            return render_template('search.html', recipes = mongo.db.recipes.find())
+        else:
+            return render_template('search.html', recipes = mongo.db.recipes.find({"category": request.args['find']}))
     elif request.args['collection'] == 'recipe_categories':
         return render_template('search.html', recipe_categories = mongo.db.recipe_categories.find())
     elif request.args['collection'] == 'appliances':
-        return render_template('search.html', appliances = mongo.db.appliances.find())
+        if request.args['find'] == 'all':
+            return render_template('search.html', appliances = mongo.db.appliances.find())
+        else:
+            return render_template('search.html', appliances = mongo.db.appliances.find({"type": request.args['find']}))
     elif request.args['collection'] == 'appliance_categories':
         return render_template('search.html', appliance_categories = mongo.db.appliance_categories.find())
     else:

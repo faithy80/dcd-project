@@ -2,13 +2,15 @@
 
 {% block content %}
 
-{% if recipes %}
-    <!-- Search section -->
-    <section class="container-fluid search-container">
-        <div class="row">
-            {% for recipe in recipes %}        
+<!-- Search section -->
+<section class="container-fluid search-container">
+    <div class="row">
+        
+    {% if recipes %}
+    
+        {% for recipe in recipes %}
             <div class="col-sm-6 col-lg-4 col-xl-3 card-pos">
-                <div class="card">
+                <div class="card">                   
                     <img class="card-img-top" src="{{recipe.img_link}}" alt="Recipe image">
 
                     <div class="card-body text-center">
@@ -25,22 +27,18 @@
                     </div>
                 </div>
             </div>
-            {% endfor %}
-        </div>
-    </section>
-
-{% elif recipe_categories %}
-    <!-- Search section -->
-    <section class="container-fluid search-container">
-        <div class="row">
-            {% for category in recipe_categories %}        
+        {% endfor %}
+        
+    {% elif recipe_categories %}
+    
+        {% for category in recipe_categories %}
             <div class="col-sm-6 col-lg-4 col-xl-3 card-pos">
-                <div class="card">
+                <div class="card">        
                     <img class="card-img-top" src="{{category.img_link}}" alt="Category image">
 
                     <div class="card-body text-center">
                         <h5 class="card-title">
-                            <a href="#" class="btn btn-link">{{category.name}}</a>
+                            <a href="{{ url_for('search', collection='recipes', find=category.name) }}" class="btn btn-link">{{category.name}}</a>
                         </h5>
 
                         <div class="card-button">
@@ -50,15 +48,11 @@
                     </div>
                 </div>
             </div>
-            {% endfor %}
-        </div>
-    </section>
+        {% endfor %}
 
-{% elif appliances %}
-    <!-- Search section -->
-    <section class="container-fluid search-container">
-        <div class="row">
-            {% for appliance in appliances %}        
+    {% elif appliances %}
+
+        {% for appliance in appliances %}
             <div class="col-sm-6 col-lg-4 col-xl-3 card-pos">
                 <div class="card">
                     <img class="card-img-top" src="{{appliance.img_link}}" alt="Appliance image">
@@ -70,30 +64,27 @@
                     </div>
                 </div>
             </div>
-            {% endfor %}
-        </div>
-    </section>
+        {% endfor %}
+    
+    {% elif appliance_categories %}
 
-{% elif appliance_categories %}
-    <!-- Search section -->
-    <section class="container-fluid search-container">
-        <div class="row">
-            {% for category in appliance_categories %}        
+        {% for category in appliance_categories %}
             <div class="col-sm-6 col-lg-4 col-xl-3 card-pos">
-                <div class="card">
+                <div class="card">        
                     <img class="card-img-top" src="{{category.img_link}}" alt="Category image">
 
                     <div class="card-body text-center">
                         <h5 class="card-title">
-                            <a href="#" class="btn btn-link">{{category.name}}</a>
+                            <a href="{{ url_for('search', collection='appliances', find=category.name) }}" class="btn btn-link">{{category.name}}</a>
                         </h5>
                     </div>
                 </div>
             </div>
-            {% endfor %}
-        </div>
-    </section>
+        {% endfor %}
 
-{% endif %}
+    {% endif %}
+
+    </div>
+</section>
 
 {% endblock %}
