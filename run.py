@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, url_for
+from flask import Flask, render_template, request, url_for, redirect
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 
@@ -52,6 +52,22 @@ def add_form():
         return render_template('add_form.html', collection = mongo.db.recipe_categories.find())
     if request.args['collection'] == 'category':
         return render_template('add_form.html')
+
+
+@app.route('/insert_recipe', methods=['POST'])
+def insert_recipe():
+    recipe = {
+        'title' :  request.form.get('title'),
+        'category' : request.form.get('category'),
+        'ingredients' : request.form.get('ingredients').split('\n'),
+        'method' : request.form.get('method').split('\n'),
+        'img_link' : request.form.get('img_link'),
+        'reviews' : [],
+        'servings' : request.form.get('servings'),
+        'view_stat' : 0
+    }
+    mongo.db.recipes.insert_one(recipe)
+    return redirect(url_for('search', collection = 'recipes', find ='all'))
 
 
 if __name__ == '__main__':
