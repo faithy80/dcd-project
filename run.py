@@ -69,6 +69,15 @@ def insert_recipe():
     mongo.db.recipes.insert_one(recipe)
     return redirect(url_for('search', collection = 'recipes', find ='all'))
 
+@app.route('/insert_recipe_category', methods=['POST'])
+def insert_recipe_category():
+    recipe_category = {
+        'name' :  request.form.get('name'),
+        'img_link' : request.form.get('img_link')
+    }
+    mongo.db.recipe_categories.insert_one(recipe_category)
+    return redirect(url_for('search', collection = 'recipe_categories'))
+
 
 if __name__ == '__main__':
     app.run(host=os.getenv('IP', '0.0.0.0'),
