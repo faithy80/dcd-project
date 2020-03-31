@@ -73,9 +73,17 @@
     padding-bottom: 0;
 }
 
-/* ---------------------------- search section */
+/* ---------------------------- view section */
 
 .view-container {
+    padding: 6rem 10% 3% 10%;
+    font-family: 'Roboto', sans-serif;
+    min-height: 100vh;
+}
+
+/* ---------------------------- view section */
+
+.addform-container {
     padding: 6rem 10% 3% 10%;
     font-family: 'Roboto', sans-serif;
     min-height: 100vh;
