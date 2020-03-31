@@ -3,9 +3,63 @@
 {% block content %}
 
 <section class="container-fluid addform-container">
-    <div class="row">
-        <h1>This is a test!</h1>
+  <div class="row">
+    <div class="col-12">
+
+      {% if collection %}
+
+      <form>
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input type="text" class="form-control" id="title" placeholder="">
+        </div>
+        <div class="form-group">
+          <label for="categorySelect">Category</label>
+          <select class="form-control" id="categorySelect">
+            {% for category in collection %}
+            <option>{{category.name}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <p>Please use | character to separate ingredients from each other!</p>
+        <div class="form-group">
+          <label for="ingredientsTextarea">Ingredients</label>
+          <textarea class="form-control" id="ingredientsTextarea" rows="3"></textarea>
+        </div>
+        <p>Please use | character to separate method steps from each other!</p>
+        <div class="form-group">
+          <label for="methodTextarea">Method</label>
+          <textarea class="form-control" id="methodTextarea" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="img_link">Image URL</label>
+          <input type="text" class="form-control" id="img_link" placeholder="">
+        </div>
+        <div class="form-group">
+          <label for="servings">Servings</label>
+          <input type="text" class="form-control" id="servings" placeholder="">
+        </div>
+        <button type="submit" class="btn btn-primary btn--orange">Submit recipe</button>
+      </form>
+
+      {% else %}
+
+      <form>
+        <div class="form-group">
+          <label for="name">Category name</label>
+          <input type="text" class="form-control" id="name" placeholder="">
+        </div>
+        <div class="form-group">
+          <label for="img_link">Image URL</label>
+          <input type="text" class="form-control" id="img_link" placeholder="">
+        </div>
+        <button type="submit" class="btn btn-primary btn--orange">Submit category</button>
+      </form>
+
+      {% endif %}
+
     </div>
+  </div>
 </section>
 
 {% endblock %}

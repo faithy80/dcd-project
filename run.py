@@ -45,9 +45,13 @@ def view(db_id):
     else:
         return 'Bad arguments!'
 
-@app.route('/add_form')
+
+@app.route('/add_form', methods=['GET'])
 def add_form():
-    return render_template('add_form.html')
+    if request.args['collection'] == 'recipe':
+        return render_template('add_form.html', collection = mongo.db.recipe_categories.find())
+    if request.args['collection'] == 'category':
+        return render_template('add_form.html')
 
 
 if __name__ == '__main__':

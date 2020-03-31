@@ -66,8 +66,8 @@
                     </a>
 
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item hvr-forward" href="#">Recipe</a>
-                        <a class="dropdown-item hvr-forward" href="#">Recipe category</a>
+                        <a class="dropdown-item hvr-forward" href="{{ url_for('add_form', collection = 'recipe') }}">Recipe</a>
+                        <a class="dropdown-item hvr-forward" href="{{ url_for('add_form', collection = 'category') }}">Recipe category</a>
                     </div>
                 </li>
             </ul>
