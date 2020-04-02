@@ -54,6 +54,14 @@ def add_form():
         return render_template('add_form.html')
 
 
+@app.route('/edit_form/<db_id>', methods=['GET'])
+def edit_form(db_id):
+    if request.args['collection'] == 'recipe':
+        return render_template('edit_form.html', collection = mongo.db.recipe_categories.find(), recipe = mongo.db.recipes.find_one({"_id": ObjectId(db_id)}))
+    if request.args['collection'] == 'recipe_category':
+        return render_template('edit_form.html', recipe_category = mongo.db.recipe_categories.find_one({"_id": ObjectId(db_id)}))
+
+
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
     recipe = {
@@ -76,6 +84,16 @@ def insert_recipe_category():
         'img_link' : request.form.get('img_link')
     }
     mongo.db.recipe_categories.insert_one(recipe_category)
+    return redirect(url_for('search', collection = 'recipe_categories'))
+
+
+@app.route('/update_recipe/<db_id>', methods=['POST'])
+def update_recipe(db_id):
+    return redirect(url_for('search', collection = 'recipes', find ='all'))
+
+
+@app.route('/update_recipe_category/<db_id>', methods=['POST'])
+def update_recipe_category(db_id):
     return redirect(url_for('search', collection = 'recipe_categories'))
 
 

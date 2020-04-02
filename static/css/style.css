@@ -55,9 +55,17 @@
     min-height: 100vh;
 }
 
-/* ---------------------------- view section */
+/* ---------------------------- addform section */
 
 .addform-container {
+    padding: 6rem 10% 3% 10%;
+    font-family: 'Roboto', sans-serif;
+    min-height: 100vh;
+}
+
+/* ---------------------------- editform section */
+
+.editform-container {
     padding: 6rem 10% 3% 10%;
     font-family: 'Roboto', sans-serif;
     min-height: 100vh;

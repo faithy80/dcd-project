@@ -21,8 +21,8 @@
                         <p>Viewed: {{recipe.view_stat}} times</p>
 
                         <div class="card-button">
-                            <a href="#" class="btn btn-primary btn--orange">Edit</a>
-                            <a href="{{ url_for('delete_recipe', db_id = recipe._id) }}" class="btn btn-primary btn--orange">Delete</a>
+                            <a href="{{ url_for('edit_form', db_id=recipe._id, collection='recipe') }}" class="btn btn-primary btn--orange">Edit</a>
+                            <a href="{{ url_for('delete_recipe', db_id=recipe._id) }}" class="btn btn-primary btn--orange">Delete</a>
                         </div>
                     </div>
                 </div>
@@ -42,8 +42,8 @@
                         </h5>
 
                         <div class="card-button">
-                            <a href="#" class="btn btn-primary btn--orange">Edit</a>
-                            <a href="{{ url_for('delete_recipe_category', db_id = category._id) }}" class="btn btn-primary btn--orange">Delete</a>
+                            <a href="{{ url_for('edit_form', db_id=category._id, collection='recipe_category') }}" class="btn btn-primary btn--orange">Edit</a>
+                            <a href="{{ url_for('delete_recipe_category', db_id=category._id) }}" class="btn btn-primary btn--orange">Delete</a>
                         </div>
                     </div>
                 </div>
