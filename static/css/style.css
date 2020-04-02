@@ -47,32 +47,6 @@
     min-height: 100vh;
 }
 
-.card{
-    max-width: 18.75rem;
-    margin: 0 auto;
-}
-
-.card-img-top {
-    max-height: 18.75rem;
-}
-
-.card-pos {
-    padding: 1rem;
-}
-
-.card-button {
-    display: inline;
-}
-
-.card-button .btn {
-    margin-top: 0;
-    margin-bottom: 0;
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
-    padding-top: 0;
-    padding-bottom: 0;
-}
-
 /* ---------------------------- view section */
 
 .view-container {
@@ -146,6 +120,32 @@
 .btn--orange:active:focus {
     color: #fff;
     background-color: #cc7b19;
+}
+
+.card{
+    margin: 0 auto;
+}
+
+.card-img-top {
+    height: 18.75rem;
+    object-fit: cover;
+}
+
+.card-pos {
+    padding: 1rem;
+}
+
+.card-button {
+    display: inline;
+}
+
+.card-button .btn {
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 /* ---------------------------- media queries */
