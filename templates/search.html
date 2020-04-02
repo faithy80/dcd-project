@@ -59,8 +59,11 @@
 
                     <div class="card-body text-center">
                         <h5 class="card-title">
+
                             <a href="{{ url_for('view', db_id=appliance._id, collection='appliances') }}" class="btn btn-link">{{appliance.brand}} {{appliance.model}}</a>
                         </h5>
+
+                        <p>Viewed: {{appliance.view_stat}} times</p>
                     </div>
                 </div>
             </div>

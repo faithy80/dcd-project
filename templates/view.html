@@ -48,6 +48,13 @@
             <p>Colour: {{appliance.colour}}</p>
             <p>Description: {{appliance.description}}</p>
             <p>Price: {{appliance.price}} euro</p>
+            <p>Reviews:</p>
+            <ul>
+                {% for review in appliance.reviews %}
+                    <li>{{review}}</li>
+                {% endfor %}
+            </ul>
+            <p>Viewed: {{appliance.view_stat}} times</p>
         </div>
     </div>
 </section>
