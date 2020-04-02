@@ -79,6 +79,18 @@ def insert_recipe_category():
     return redirect(url_for('search', collection = 'recipe_categories'))
 
 
+@app.route('/delete_recipe/<db_id>')
+def delete_recipe(db_id):
+    mongo.db.recipes.remove({'_id': ObjectId(db_id)})
+    return redirect(url_for('search', collection = 'recipes', find ='all'))
+
+
+@app.route('/delete_recipe_category/<db_id>')
+def delete_recipe_category(db_id):
+    mongo.db.recipe_categories.remove({'_id': ObjectId(db_id)})
+    return redirect(url_for('search', collection = 'recipe_categories'))
+
+
 if __name__ == '__main__':
     app.run(host=os.getenv('IP', '0.0.0.0'),
             port=int(os.getenv('PORT', '5000')),
