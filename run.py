@@ -20,18 +20,18 @@ def index():
 def search():
     if request.args['collection'] == 'recipes':
         if request.args['find'] == 'all':
-            return render_template('search.html', recipes = mongo.db.recipes.find())
+            return render_template('search.html', recipes = mongo.db.recipes.find().sort('title'))
         else:
-            return render_template('search.html', recipes = mongo.db.recipes.find({"category": request.args['find']}))
+            return render_template('search.html', recipes = mongo.db.recipes.find({"category": request.args['find']}).sort('title'))
     elif request.args['collection'] == 'recipe_categories':
-        return render_template('search.html', recipe_categories = mongo.db.recipe_categories.find())
+        return render_template('search.html', recipe_categories = mongo.db.recipe_categories.find().sort('name'))
     elif request.args['collection'] == 'appliances':
         if request.args['find'] == 'all':
-            return render_template('search.html', appliances = mongo.db.appliances.find())
+            return render_template('search.html', appliances = mongo.db.appliances.find().sort('brand'))
         else:
-            return render_template('search.html', appliances = mongo.db.appliances.find({"type": request.args['find']}))
+            return render_template('search.html', appliances = mongo.db.appliances.find({"type": request.args['find']}).sort('brand'))
     elif request.args['collection'] == 'appliance_categories':
-        return render_template('search.html', appliance_categories = mongo.db.appliance_categories.find())
+        return render_template('search.html', appliance_categories = mongo.db.appliance_categories.find().sort('name'))
     else:
         return 'Bad arguments!'
 
