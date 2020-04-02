@@ -89,11 +89,27 @@ def insert_recipe_category():
 
 @app.route('/update_recipe/<db_id>', methods=['POST'])
 def update_recipe(db_id):
+    mongo.db.recipes.update({'_id': ObjectId(db_id)},
+    {
+        '$set': {
+            'title' :  request.form.get('title'),
+            'category' : request.form.get('category'),
+            'ingredients' : request.form.get('ingredients').split('\n'),
+            'method' : request.form.get('method').split('\n'),
+            'img_link' : request.form.get('img_link'),
+            'servings' : request.form.get('servings')
+        }
+    })
     return redirect(url_for('search', collection = 'recipes', find ='all'))
 
 
 @app.route('/update_recipe_category/<db_id>', methods=['POST'])
 def update_recipe_category(db_id):
+    mongo.db.recipe_categories.update({'_id': ObjectId(db_id)},
+    {
+        'name' :  request.form.get('name'),
+        'img_link' : request.form.get('img_link')
+    })
     return redirect(url_for('search', collection = 'recipe_categories'))
 
 
