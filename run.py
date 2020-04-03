@@ -39,8 +39,20 @@ def search():
 @app.route('/view/<db_id>', methods=['GET'])
 def view(db_id):
     if request.args['collection'] == 'recipes':
+        mongo.db.recipes.update({'_id': ObjectId(db_id)},
+        {
+            '$inc' : {
+                'view_stat' : 1
+            }
+        })
         return render_template('view.html', recipe = mongo.db.recipes.find_one({"_id": ObjectId(db_id)}))
     elif request.args['collection'] == 'appliances':
+        mongo.db.appliances.update({'_id': ObjectId(db_id)},
+        {
+            '$inc' : {
+                'view_stat' : 1
+            }
+        })
         return render_template('view.html', appliance = mongo.db.appliances.find_one({"_id": ObjectId(db_id)}))
     else:
         return 'Bad arguments!'
