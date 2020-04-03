@@ -8,29 +8,44 @@
 <section class="container-fluid view-container">
     <div class="row">
         <div class="col-12">
-            <img style="width: 300px;" src="{{recipe.img_link}}"/>
+            <img style="width: 300px;" src="{{recipe.img_link}}" />
             <h2>{{recipe.title}}</h2>
+
             <p>Category: {{recipe.category}}</p>
+
             <p>Servings: {{recipe.servings}}</p>
+
             <p>Ingredients:</p>
             <ul>
                 {% for ingredient in recipe.ingredients %}
-                    <li>{{ingredient}}</li>
+                <li>{{ingredient}}</li>
                 {% endfor %}
             </ul>
+
             <p>Method:</p>
             <ul>
                 {% for step in recipe.method %}
-                    <li>{{step}}</li>
+                <li>{{step}}</li>
                 {% endfor %}
             </ul>
+
             <p>Reviews:</p>
             <ul>
                 {% for review in recipe.reviews %}
-                    <li>{{review}}</li>
+                <li>{{review}}</li>
                 {% endfor %}
             </ul>
+
             <p>Viewed: {{recipe.view_stat}} times</p>
+
+            <form action="{{ url_for('add_review', db_id=recipe._id, collection='recipe') }}" method="POST">
+                <div class="form-group">
+                    <label for="review">Add review</label>
+                    <textarea class="form-control" id="review" name="review" rows="3" required></textarea>
+                </div>
+
+                <button type="submit" name="action" class="btn btn-primary btn--orange">Submit review</button>
+            </form>
         </div>
     </div>
 </section>
@@ -41,20 +56,37 @@
 <section class="container-fluid view-container">
     <div class="row">
         <div class="col-12">
-            <img style="width: 300px;" src="{{appliance.img_link}}"/>
+            <img style="width: 300px;" src="{{appliance.img_link}}" />
+
             <h2>{{appliance.brand}} {{appliance.model}}</h2>
+
             <p>Category: {{appliance.type}}</p>
+
             <p>Fuel type: {{appliance.fuel_type}}</p>
+
             <p>Colour: {{appliance.colour}}</p>
+
             <p>Description: {{appliance.description}}</p>
+
             <p>Price: {{appliance.price}} euro</p>
+
             <p>Reviews:</p>
             <ul>
                 {% for review in appliance.reviews %}
-                    <li>{{review}}</li>
+                <li>{{review}}</li>
                 {% endfor %}
             </ul>
+
             <p>Viewed: {{appliance.view_stat}} times</p>
+
+            <form action="{{ url_for('add_review', db_id=appliance._id, collection='appliance') }}" method="POST">
+                <div class="form-group">
+                    <label for="review">Add review</label>
+                    <textarea class="form-control" id="review" name="review" rows="3" required></textarea>
+                </div>
+
+                <button type="submit" name="action" class="btn btn-primary btn--orange">Submit review</button>
+            </form>
         </div>
     </div>
 </section>

@@ -125,6 +125,26 @@ def delete_recipe_category(db_id):
     return redirect(url_for('search', collection = 'recipe_categories'))
 
 
+@app.route('/add_review/<db_id>', methods=['POST'])
+def add_review(db_id):
+    if request.args['collection'] == 'recipe':
+        mongo.db.recipes.update({'_id': ObjectId(db_id)},
+        {
+            '$push' : {
+                'reviews' : request.form.get('review')
+            }
+        })
+        return redirect(url_for('view', db_id=db_id, collection='recipes'))
+    if request.args['collection'] == 'appliance':
+        mongo.db.appliances.update({'_id': ObjectId(db_id)},
+        {
+            '$push' : {
+                'reviews' : request.form.get('review')
+            }
+        })
+        return redirect(url_for('view', db_id=db_id, collection='appliances'))    
+
+
 if __name__ == '__main__':
     app.run(host=os.getenv('IP', '0.0.0.0'),
             port=int(os.getenv('PORT', '5000')),
