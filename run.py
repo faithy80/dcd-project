@@ -2,6 +2,7 @@ import os
 from flask import Flask, render_template, request, url_for, redirect
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
+import werkzeug.exceptions
 
 app = Flask(__name__)
 
@@ -13,34 +14,34 @@ mongo = PyMongo(app)
 
 @app.route('/')
 def index():
-    """returns the landing page"""
+    """Returns the landing page"""
     return render_template('index.html')
 
 
 @app.route('/search', methods=['GET'])
 def search():
-    """returns all recipes, recipes by category, all appliances or appliances by category"""
+    """Returns all recipes, recipes by category, all appliances or appliances by category"""
     if request.args['collection'] == 'recipes':
         if request.args['find'] == 'all':
-            return render_template('search.html', recipes = mongo.db.recipes.find().sort('title'))
+            return render_template('search.html', recipes=mongo.db.recipes.find().sort('title'))
         else:
-            return render_template('search.html', recipes = mongo.db.recipes.find({"category": request.args['find']}).sort('title'))
+            return render_template('search.html', recipes=mongo.db.recipes.find({"category": request.args['find']}).sort('title'))
     elif request.args['collection'] == 'recipe_categories':
-        return render_template('search.html', recipe_categories = mongo.db.recipe_categories.find().sort('name'))
+        return render_template('search.html', recipe_categories=mongo.db.recipe_categories.find().sort('name'))
     elif request.args['collection'] == 'appliances':
         if request.args['find'] == 'all':
-            return render_template('search.html', appliances = mongo.db.appliances.find().sort('brand'))
+            return render_template('search.html', appliances=mongo.db.appliances.find().sort('brand'))
         else:
-            return render_template('search.html', appliances = mongo.db.appliances.find({"type": request.args['find']}).sort('brand'))
+            return render_template('search.html', appliances=mongo.db.appliances.find({"type": request.args['find']}).sort('brand'))
     elif request.args['collection'] == 'appliance_categories':
-        return render_template('search.html', appliance_categories = mongo.db.appliance_categories.find().sort('name'))
+        return render_template('search.html', appliance_categories=mongo.db.appliance_categories.find().sort('name'))
     else:
-        return 'Bad arguments!'
+        return render_template('error.html')
 
 
 @app.route('/view/<db_id>', methods=['GET'])
 def view(db_id):
-    """returns a recipe or an appliance to view individually"""
+    """Returns a recipe or an appliance to view individually"""
     if request.args['collection'] == 'recipes':
         mongo.db.recipes.update({'_id': ObjectId(db_id)},
         {
@@ -48,7 +49,7 @@ def view(db_id):
                 'view_stat' : 1
             }
         })
-        return render_template('view.html', recipe = mongo.db.recipes.find_one({"_id": ObjectId(db_id)}))
+        return render_template('view.html', recipe=mongo.db.recipes.find_one({"_id": ObjectId(db_id)}))
     elif request.args['collection'] == 'appliances':
         mongo.db.appliances.update({'_id': ObjectId(db_id)},
         {
@@ -56,27 +57,31 @@ def view(db_id):
                 'view_stat' : 1
             }
         })
-        return render_template('view.html', appliance = mongo.db.appliances.find_one({"_id": ObjectId(db_id)}))
+        return render_template('view.html', appliance=mongo.db.appliances.find_one({"_id": ObjectId(db_id)}))
     else:
-        return 'Bad arguments!'
+        return render_template('error.html')
 
 
 @app.route('/add_form', methods=['GET'])
 def add_form():
     """Returns a form for a new recipe or reicpe category"""
     if request.args['collection'] == 'recipe':
-        return render_template('add_form.html', collection = mongo.db.recipe_categories.find())
-    if request.args['collection'] == 'category':
+        return render_template('add_form.html', collection=mongo.db.recipe_categories.find())
+    elif request.args['collection'] == 'category':
         return render_template('add_form.html')
+    else:
+        return render_template('error.html')
 
 
 @app.route('/edit_form/<db_id>', methods=['GET'])
 def edit_form(db_id):
     """Returns a form to edit an existing recipe or recipe category"""
     if request.args['collection'] == 'recipe':
-        return render_template('edit_form.html', collection = mongo.db.recipe_categories.find(), recipe = mongo.db.recipes.find_one({"_id": ObjectId(db_id)}))
-    if request.args['collection'] == 'recipe_category':
-        return render_template('edit_form.html', recipe_category = mongo.db.recipe_categories.find_one({"_id": ObjectId(db_id)}))
+        return render_template('edit_form.html', collection=mongo.db.recipe_categories.find(), recipe = mongo.db.recipes.find_one({"_id": ObjectId(db_id)}))
+    elif request.args['collection'] == 'recipe_category':
+        return render_template('edit_form.html', recipe_category=mongo.db.recipe_categories.find_one({"_id": ObjectId(db_id)}))
+    else:
+        return render_template('error.html')
 
 
 @app.route('/insert_recipe', methods=['POST'])
@@ -93,7 +98,8 @@ def insert_recipe():
         'view_stat' : 0
     }
     mongo.db.recipes.insert_one(recipe)
-    return redirect(url_for('search', collection = 'recipes', find ='all'))
+    return redirect(url_for('search', collection='recipes', find='all'))
+
 
 @app.route('/insert_recipe_category', methods=['POST'])
 def insert_recipe_category():
@@ -103,7 +109,7 @@ def insert_recipe_category():
         'img_link' : request.form.get('img_link')
     }
     mongo.db.recipe_categories.insert_one(recipe_category)
-    return redirect(url_for('search', collection = 'recipe_categories'))
+    return redirect(url_for('search', collection='recipe_categories'))
 
 
 @app.route('/update_recipe/<db_id>', methods=['POST'])
@@ -120,7 +126,7 @@ def update_recipe(db_id):
             'servings' : request.form.get('servings')
         }
     })
-    return redirect(url_for('search', collection = 'recipes', find ='all'))
+    return redirect(url_for('search', collection='recipes', find ='all'))
 
 
 @app.route('/update_recipe_category/<db_id>', methods=['POST'])
@@ -131,21 +137,21 @@ def update_recipe_category(db_id):
         'name' :  request.form.get('name'),
         'img_link' : request.form.get('img_link')
     })
-    return redirect(url_for('search', collection = 'recipe_categories'))
+    return redirect(url_for('search', collection='recipe_categories'))
 
 
 @app.route('/delete_recipe/<db_id>')
 def delete_recipe(db_id):
     """Removes a recipe from the database and redirects to the list of all recipes"""
     mongo.db.recipes.remove({'_id': ObjectId(db_id)})
-    return redirect(url_for('search', collection = 'recipes', find ='all'))
+    return redirect(url_for('search', collection='recipes', find ='all'))
 
 
 @app.route('/delete_recipe_category/<db_id>')
 def delete_recipe_category(db_id):
     """Removes a recipe category from the database and redirects to the list of all recipe categories"""
     mongo.db.recipe_categories.remove({'_id': ObjectId(db_id)})
-    return redirect(url_for('search', collection = 'recipe_categories'))
+    return redirect(url_for('search', collection='recipe_categories'))
 
 
 @app.route('/add_review/<db_id>', methods=['POST'])
@@ -159,14 +165,22 @@ def add_review(db_id):
             }
         })
         return redirect(url_for('view', db_id=db_id, collection='recipes'))
-    if request.args['collection'] == 'appliance':
+    elif request.args['collection'] == 'appliance':
         mongo.db.appliances.update({'_id': ObjectId(db_id)},
         {
             '$push' : {
                 'reviews' : request.form.get('review')
             }
         })
-        return redirect(url_for('view', db_id=db_id, collection='appliances'))    
+        return redirect(url_for('view', db_id=db_id, collection='appliances'))
+    else:
+        return render_template('error.html')
+
+
+@app.errorhandler(werkzeug.exceptions.BadRequest)
+def handle_bad_request(e):
+    """returns an error page on bad request error"""
+    return render_template('error.html')
 
 
 if __name__ == '__main__':

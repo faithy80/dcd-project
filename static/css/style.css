@@ -71,6 +71,18 @@
     min-height: 100vh;
 }
 
+/* ---------------------------- error section */
+
+.error-container {
+    padding: 8rem 10% 3% 10%;
+    font-family: 'Roboto', sans-serif;
+    min-height: 100vh;
+}
+
+.error-container div a {
+    margin-top: 2rem;
+}
+
 /* ---------------------------- footer section */
 
 .footer-container {
