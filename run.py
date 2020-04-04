@@ -13,11 +13,13 @@ mongo = PyMongo(app)
 
 @app.route('/')
 def index():
+    """returns the landing page"""
     return render_template('index.html')
 
 
 @app.route('/search', methods=['GET'])
 def search():
+    """returns all recipes, recipes by category, all appliances or appliances by category"""
     if request.args['collection'] == 'recipes':
         if request.args['find'] == 'all':
             return render_template('search.html', recipes = mongo.db.recipes.find().sort('title'))
@@ -38,6 +40,7 @@ def search():
 
 @app.route('/view/<db_id>', methods=['GET'])
 def view(db_id):
+    """returns a recipe or an appliance to view individually"""
     if request.args['collection'] == 'recipes':
         mongo.db.recipes.update({'_id': ObjectId(db_id)},
         {
@@ -60,6 +63,7 @@ def view(db_id):
 
 @app.route('/add_form', methods=['GET'])
 def add_form():
+    """Returns a form for a new recipe or reicpe category"""
     if request.args['collection'] == 'recipe':
         return render_template('add_form.html', collection = mongo.db.recipe_categories.find())
     if request.args['collection'] == 'category':
@@ -68,6 +72,7 @@ def add_form():
 
 @app.route('/edit_form/<db_id>', methods=['GET'])
 def edit_form(db_id):
+    """Returns a form to edit an existing recipe or recipe category"""
     if request.args['collection'] == 'recipe':
         return render_template('edit_form.html', collection = mongo.db.recipe_categories.find(), recipe = mongo.db.recipes.find_one({"_id": ObjectId(db_id)}))
     if request.args['collection'] == 'recipe_category':
@@ -76,6 +81,7 @@ def edit_form(db_id):
 
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
+    """Inserts a recipe into the database and redirects to the list of all recipes"""
     recipe = {
         'title' :  request.form.get('title'),
         'category' : request.form.get('category'),
@@ -91,6 +97,7 @@ def insert_recipe():
 
 @app.route('/insert_recipe_category', methods=['POST'])
 def insert_recipe_category():
+    """Inserts a recipe category into the database and redirects to the list of all recipe categories"""
     recipe_category = {
         'name' :  request.form.get('name'),
         'img_link' : request.form.get('img_link')
@@ -101,6 +108,7 @@ def insert_recipe_category():
 
 @app.route('/update_recipe/<db_id>', methods=['POST'])
 def update_recipe(db_id):
+    """Updates a recipe in the database and redirects to the list of all recipes"""
     mongo.db.recipes.update({'_id': ObjectId(db_id)},
     {
         '$set': {
@@ -117,6 +125,7 @@ def update_recipe(db_id):
 
 @app.route('/update_recipe_category/<db_id>', methods=['POST'])
 def update_recipe_category(db_id):
+    """Updates a recipe category in the database and redirects to the list of all recipe categories"""
     mongo.db.recipe_categories.update({'_id': ObjectId(db_id)},
     {
         'name' :  request.form.get('name'),
@@ -127,18 +136,21 @@ def update_recipe_category(db_id):
 
 @app.route('/delete_recipe/<db_id>')
 def delete_recipe(db_id):
+    """Removes a recipe from the database and redirects to the list of all recipes"""
     mongo.db.recipes.remove({'_id': ObjectId(db_id)})
     return redirect(url_for('search', collection = 'recipes', find ='all'))
 
 
 @app.route('/delete_recipe_category/<db_id>')
 def delete_recipe_category(db_id):
+    """Removes a recipe category from the database and redirects to the list of all recipe categories"""
     mongo.db.recipe_categories.remove({'_id': ObjectId(db_id)})
     return redirect(url_for('search', collection = 'recipe_categories'))
 
 
 @app.route('/add_review/<db_id>', methods=['POST'])
 def add_review(db_id):
+    """Adds a review to a recipe or an appliance and refreshes the view page"""
     if request.args['collection'] == 'recipe':
         mongo.db.recipes.update({'_id': ObjectId(db_id)},
         {
