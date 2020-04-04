@@ -42,8 +42,10 @@
                     </a>
 
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item hvr-forward" href="{{ url_for('search', collection='recipe_categories') }}">By category</a>
-                        <a class="dropdown-item hvr-forward" href="{{ url_for('search', collection='recipes', find='all') }}">All</a>
+                        <a class="dropdown-item hvr-forward"
+                            href="{{ url_for('search', collection='recipe_categories') }}">By category</a>
+                        <a class="dropdown-item hvr-forward"
+                            href="{{ url_for('search', collection='recipes', find='all') }}">All</a>
                     </div>
                 </li>
 
@@ -54,8 +56,10 @@
                     </a>
 
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item hvr-forward" href="{{ url_for('search', collection='appliance_categories') }}">By category</a>
-                        <a class="dropdown-item hvr-forward" href="{{ url_for('search', collection='appliances', find='all') }}">All</a>
+                        <a class="dropdown-item hvr-forward"
+                            href="{{ url_for('search', collection='appliance_categories') }}">By category</a>
+                        <a class="dropdown-item hvr-forward"
+                            href="{{ url_for('search', collection='appliances', find='all') }}">All</a>
                     </div>
                 </li>
 
@@ -66,8 +70,10 @@
                     </a>
 
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item hvr-forward" href="{{ url_for('add_form', collection = 'recipe') }}">Recipe</a>
-                        <a class="dropdown-item hvr-forward" href="{{ url_for('add_form', collection = 'category') }}">Recipe category</a>
+                        <a class="dropdown-item hvr-forward"
+                            href="{{ url_for('add_form', collection = 'recipe') }}">Recipe</a>
+                        <a class="dropdown-item hvr-forward"
+                            href="{{ url_for('add_form', collection = 'category') }}">Recipe category</a>
                     </div>
                 </li>
             </ul>

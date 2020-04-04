@@ -3,73 +3,73 @@
 {% block content %}
 
 <section class="container-fluid addform-container">
-  <div class="row">
-    <div class="col-12">
+    <div class="row">
+        <div class="col-12">
 
-      {% if collection %}
+            {% if collection %}
 
-      <form action="{{ url_for('insert_recipe') }}" method="POST">
-        <div class="form-group">
-          <label for="title">Title</label>
-          <input type="text" class="form-control" id="title" name="title" placeholder="" required>
-        </div>
+            <form action="{{ url_for('insert_recipe') }}" method="POST">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="" required>
+                </div>
 
-        <div class="form-group">
-          <label for="category">Category</label>
-          <select class="form-control" id="category" name="category" required>
-            {% for category in collection %}
-            <option>{{category.name}}</option>
-            {% endfor %}
-          </select>
-        </div>
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select class="form-control" id="category" name="category" required>
+                        {% for category in collection %}
+                        <option>{{category.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
 
-        <p>Please use Enter to separate ingredients from each other!</p>
-        
-        <div class="form-group">
-          <label for="ingredients">Ingredients</label>
-          <textarea class="form-control" id="ingredients" name="ingredients" rows="3" required></textarea>
-        </div>
-        
-        <p>Please use Enter to separate method steps from each other!</p>
-        
-        <div class="form-group">
-          <label for="method">Method</label>
-          <textarea class="form-control" id="method" name="method" rows="3" required></textarea>
-        </div>
-        
-        <div class="form-group">
-          <label for="img_link">Image URL</label>
-          <input type="text" class="form-control" id="img_link" name="img_link" placeholder="" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="servings">Servings</label>
-          <input type="text" class="form-control" id="servings" name="servings" placeholder="" required>
-        </div>
-        
-        <button type="submit" name="action" class="btn btn-primary btn--orange">Submit recipe</button>
-      </form>
+                <p>Please use Enter to separate ingredients from each other!</p>
 
-      {% else %}
+                <div class="form-group">
+                    <label for="ingredients">Ingredients</label>
+                    <textarea class="form-control" id="ingredients" name="ingredients" rows="3" required></textarea>
+                </div>
 
-      <form action="{{ url_for('insert_recipe_category') }}" method="POST">
-        <div class="form-group">
-          <label for="name">Category name</label>
-          <input type="text" class="form-control" id="name" name="name" placeholder="">
+                <p>Please use Enter to separate method steps from each other!</p>
+
+                <div class="form-group">
+                    <label for="method">Method</label>
+                    <textarea class="form-control" id="method" name="method" rows="3" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="img_link">Image URL</label>
+                    <input type="text" class="form-control" id="img_link" name="img_link" placeholder="" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="servings">Servings</label>
+                    <input type="text" class="form-control" id="servings" name="servings" placeholder="" required>
+                </div>
+
+                <button type="submit" name="action" class="btn btn-primary btn--orange">Submit recipe</button>
+            </form>
+
+            {% else %}
+
+            <form action="{{ url_for('insert_recipe_category') }}" method="POST">
+                <div class="form-group">
+                    <label for="name">Category name</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="">
+                </div>
+
+                <div class="form-group">
+                    <label for="img_link">Image URL</label>
+                    <input type="text" class="form-control" id="img_link" name="img_link" placeholder="">
+                </div>
+
+                <button type="submit" name="action" class="btn btn-primary btn--orange">Submit category</button>
+            </form>
+
+            {% endif %}
+
         </div>
-        
-        <div class="form-group">
-          <label for="img_link">Image URL</label>
-          <input type="text" class="form-control" id="img_link" name="img_link" placeholder="">
-        </div>
-        
-        <button type="submit" name="action" class="btn btn-primary btn--orange">Submit category</button>
-      </form>
-
-      {% endif %}
-
     </div>
-  </div>
 </section>
 
 {% endblock %}
