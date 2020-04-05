@@ -25,14 +25,22 @@ def search():
         if request.args['find'] == 'all':
             return render_template('search.html', recipes=mongo.db.recipes.find().sort('title'))
         else:
-            return render_template('search.html', recipes=mongo.db.recipes.find({"category": request.args['find']}).sort('title'))
+            recipes = mongo.db.recipes.find({"category": request.args['find']}).sort('title')
+            if recipes.count() > 0:
+                return render_template('search.html', recipes=recipes)
+            else:
+                return render_template('error.html', msg='No results found!')
     elif request.args['collection'] == 'recipe_categories':
         return render_template('search.html', recipe_categories=mongo.db.recipe_categories.find().sort('name'))
     elif request.args['collection'] == 'appliances':
         if request.args['find'] == 'all':
             return render_template('search.html', appliances=mongo.db.appliances.find().sort('brand'))
         else:
-            return render_template('search.html', appliances=mongo.db.appliances.find({"type": request.args['find']}).sort('brand'))
+            appliances = mongo.db.appliances.find({"type": request.args['find']}).sort('brand')
+            if appliances.count() > 0:
+                return render_template('search.html', appliances=appliances)
+            else:
+                return render_template('error.html', msg='No results found!')
     elif request.args['collection'] == 'appliance_categories':
         return render_template('search.html', appliance_categories=mongo.db.appliance_categories.find().sort('name'))
     else:
@@ -45,7 +53,10 @@ def navsearch():
     """Returns ingredient search results"""
     search_text = re.compile(request.form.get('search'), re.IGNORECASE)
     recipes = mongo.db.recipes.find({'ingredients': {'$in': [search_text]}}).sort('title')
-    return render_template('navsearch.html', recipes=recipes)
+    if recipes.count() > 0:
+        return render_template('navsearch.html', recipes=recipes)
+    else:
+        return render_template('error.html', msg='No result found!')
 
 
 @app.route('/view/<db_id>', methods=['GET'])
