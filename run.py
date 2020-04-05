@@ -198,7 +198,7 @@ def add_review(db_id):
 
 
 @app.errorhandler(404)
-def not_found():
+def page_not_found(e):
     """Page not found."""
     return render_template('error.html', msg='Page not found error! (404)')
 
@@ -210,7 +210,7 @@ def handle_bad_request(e):
 
 
 @app.errorhandler(500)
-def server_error():
+def server_error(e):
     """Internal server error."""
     return render_template('error.html', msg='Internal server error! (500)')
 
