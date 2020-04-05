@@ -2,7 +2,7 @@ import os
 from flask import Flask, render_template, request, url_for, redirect
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
-from bson.regex import Regex
+import re
 
 app = Flask(__name__)
 
@@ -43,7 +43,7 @@ def search():
 @app.route('/navsearch', methods=['POST'])
 def navsearch():
     """Returns ingredient search results"""
-    search_text = Regex(request.form.get('search'))
+    search_text = re.compile(request.form.get('search'), re.IGNORECASE)
     recipes = mongo.db.recipes.find({'ingredients': {'$in': [search_text]}}).sort('title')
     return render_template('navsearch.html', recipes=recipes)
 
