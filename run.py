@@ -2,6 +2,7 @@ import os
 from flask import Flask, render_template, request, url_for, redirect
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
+from bson.regex import Regex
 import werkzeug.exceptions
 
 app = Flask(__name__)
@@ -37,6 +38,15 @@ def search():
         return render_template('search.html', appliance_categories=mongo.db.appliance_categories.find().sort('name'))
     else:
         return render_template('error.html')
+
+
+@app.route('/', methods=['POST'])
+@app.route('/navsearch', methods=['POST'])
+def navsearch():
+    """Returns ingredient search results"""
+    search_text = Regex(request.form.get('search'))
+    recipes = mongo.db.recipes.find({'ingredients': {'$in': [search_text]}}).sort('title')
+    return render_template('navsearch.html', recipes=recipes)
 
 
 @app.route('/view/<db_id>', methods=['GET'])

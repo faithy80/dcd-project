@@ -47,6 +47,19 @@
     min-height: 100vh;
 }
 
+/* ---------------------------- navsearch section */
+
+.navsearch-container {
+    padding: 6rem 10% 3% 10%;
+    font-family: 'Roboto', sans-serif;
+    min-height: 100vh;
+}
+
+.navsearch-container div h4 {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
 /* ---------------------------- view section */
 
 .view-container {
@@ -77,10 +90,6 @@
     padding: 8rem 10% 3% 10%;
     font-family: 'Roboto', sans-serif;
     min-height: 100vh;
-}
-
-.error-container div a {
-    margin-top: 2rem;
 }
 
 /* ---------------------------- footer section */
@@ -126,6 +135,10 @@
 
 .btn-search {
     border-radius: 25px;
+}
+
+.btn-gohome {
+    margin-top: 2rem;
 }
 
 .btn--orange {

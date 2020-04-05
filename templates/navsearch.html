@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Search section -->
+<section class="container-fluid navsearch-container">
+    <div class="row">
+        <div class="col-12">
+            <h4>Ingredient search results:</h4>
+
+            {% for recipe in recipes %}
+            <div>
+                <a class="btn btn-link"
+                    href="{{ url_for('view', db_id=recipe._id, collection='recipes') }}">{{recipe.title}}</a>
+            </div>
+
+            {% endfor %}
+
+            <a href="{{ url_for('index') }}" class="btn btn-primary btn--orange btn-gohome">Back to Home</a>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}
