@@ -3,11 +3,21 @@
 {% block content %}
 
 <div class="container-fluid error-container">
-    <div class="col-12">
+    <div class="row">
+        <div class="col-12">
 
-        <h4>An error happened!</h4>
+            {% if msg %}
 
-        <a href="{{ url_for('index') }}" class="btn btn-primary btn--orange btn-gohome">Back to Home</a>
+            <h4>{{msg}}</h4>
+
+            {% else %}
+
+            <h4>An unknown error happened!</h4>
+
+            {% endif %}
+
+            <a href="{{ url_for('index') }}" class="btn btn-primary btn--orange btn-gohome">Back to Home</a>
+        </div>
     </div>
 </div>
 

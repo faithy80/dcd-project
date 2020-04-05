@@ -3,7 +3,6 @@ from flask import Flask, render_template, request, url_for, redirect
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 from bson.regex import Regex
-import werkzeug.exceptions
 
 app = Flask(__name__)
 
@@ -37,7 +36,7 @@ def search():
     elif request.args['collection'] == 'appliance_categories':
         return render_template('search.html', appliance_categories=mongo.db.appliance_categories.find().sort('name'))
     else:
-        return render_template('error.html')
+        return render_template('error.html', msg='Bad argument error! (/search)')
 
 
 @app.route('/', methods=['POST'])
@@ -69,7 +68,7 @@ def view(db_id):
         })
         return render_template('view.html', appliance=mongo.db.appliances.find_one({"_id": ObjectId(db_id)}))
     else:
-        return render_template('error.html')
+        return render_template('error.html', msg='Bad argument error! (/view)')
 
 
 @app.route('/add_form', methods=['GET'])
@@ -80,7 +79,7 @@ def add_form():
     elif request.args['collection'] == 'category':
         return render_template('add_form.html')
     else:
-        return render_template('error.html')
+        return render_template('error.html', msg='Bad argument error! (/add_form)')
 
 
 @app.route('/edit_form/<db_id>', methods=['GET'])
@@ -91,7 +90,7 @@ def edit_form(db_id):
     elif request.args['collection'] == 'recipe_category':
         return render_template('edit_form.html', recipe_category=mongo.db.recipe_categories.find_one({"_id": ObjectId(db_id)}))
     else:
-        return render_template('error.html')
+        return render_template('error.html', msg='Bad argument error! (/edit_form)')
 
 
 @app.route('/insert_recipe', methods=['POST'])
@@ -184,13 +183,25 @@ def add_review(db_id):
         })
         return redirect(url_for('view', db_id=db_id, collection='appliances'))
     else:
-        return render_template('error.html')
+        return render_template('error.html', msg='Bad argument error! (/add_review)')
 
 
-@app.errorhandler(werkzeug.exceptions.BadRequest)
+@app.errorhandler(404)
+def not_found():
+    """Page not found."""
+    return render_template('error.html', msg='Page not found error! (404)')
+
+
+@app.errorhandler(400)
 def handle_bad_request(e):
-    """returns an error page on bad request error"""
-    return render_template('error.html')
+    """Bad request error."""
+    return render_template('error.html', msg='Bad request error! (400)')
+
+
+@app.errorhandler(500)
+def server_error():
+    """Internal server error."""
+    return render_template('error.html', msg='Internal server error! (500)')
 
 
 if __name__ == '__main__':
