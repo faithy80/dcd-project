@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, url_for, redirect
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 import re
+import requests
 
 app = Flask(__name__)
 
@@ -10,6 +11,13 @@ app.config['MONGO_DBNAME'] = os.environ.get('MONGO_DBNAME')
 app.config['MONGO_URI'] = os.environ.get('MONGO_URI')
 
 mongo = PyMongo(app)
+
+def check_img_URL(img_URL):
+    """Checks if image URL exist, returns a default URL in case of necessity"""
+    r = requests.head(img_URL)
+    if r.status_code != requests.codes['ok']:
+        img_URL = 'https://upload.wikimedia.org/wikipedia/commons/0/0a/No-image-available.png'
+    return img_URL
 
 
 @app.route('/')
@@ -107,12 +115,13 @@ def edit_form(db_id):
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
     """Inserts a recipe into the database and redirects to the list of all recipes"""
+    img_URL = check_img_URL(request.form.get('img_link'))
     recipe = {
         'title' :  request.form.get('title'),
         'category' : request.form.get('category'),
         'ingredients' : request.form.get('ingredients').split('\n'),
         'method' : request.form.get('method').split('\n'),
-        'img_link' : request.form.get('img_link'),
+        'img_link' : img_URL,
         'reviews' : [],
         'servings' : request.form.get('servings'),
         'view_stat' : 0
@@ -124,9 +133,10 @@ def insert_recipe():
 @app.route('/insert_recipe_category', methods=['POST'])
 def insert_recipe_category():
     """Inserts a recipe category into the database and redirects to the list of all recipe categories"""
+    img_URL = check_img_URL(request.form.get('img_link'))
     recipe_category = {
         'name' :  request.form.get('name'),
-        'img_link' : request.form.get('img_link')
+        'img_link' : img_URL
     }
     mongo.db.recipe_categories.insert_one(recipe_category)
     return redirect(url_for('search', collection='recipe_categories'))
@@ -135,6 +145,7 @@ def insert_recipe_category():
 @app.route('/update_recipe/<db_id>', methods=['POST'])
 def update_recipe(db_id):
     """Updates a recipe in the database and redirects to the list of all recipes"""
+    img_URL = check_img_URL(request.form.get('img_link'))
     mongo.db.recipes.update({'_id': ObjectId(db_id)},
     {
         '$set': {
@@ -142,7 +153,7 @@ def update_recipe(db_id):
             'category' : request.form.get('category'),
             'ingredients' : request.form.get('ingredients').split('\n'),
             'method' : request.form.get('method').split('\n'),
-            'img_link' : request.form.get('img_link'),
+            'img_link' : img_URL,
             'servings' : request.form.get('servings')
         }
     })
@@ -152,10 +163,11 @@ def update_recipe(db_id):
 @app.route('/update_recipe_category/<db_id>', methods=['POST'])
 def update_recipe_category(db_id):
     """Updates a recipe category in the database and redirects to the list of all recipe categories"""
+    img_URL = check_img_URL(request.form.get('img_link'))
     mongo.db.recipe_categories.update({'_id': ObjectId(db_id)},
     {
         'name' :  request.form.get('name'),
-        'img_link' : request.form.get('img_link')
+        'img_link' : img_URL
     })
     return redirect(url_for('search', collection='recipe_categories'))
 
