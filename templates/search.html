@@ -11,7 +11,8 @@
         {% for recipe in recipes %}
         <div class="col-sm-6 col-lg-4 col-xl-3 card-pos">
             <div class="card">
-                <img class="card-img-top" src="{{recipe.img_link}}" alt="Recipe image">
+                <img class="card-img-top" src="{{recipe.img_link}}"
+                    onerror="this.src='{{ url_for('static', filename='images/default.png') }}'" alt="Recipe image">
 
                 <div class="card-body text-center">
                     <h5 class="card-title">
@@ -59,7 +60,8 @@
         {% for category in recipe_categories %}
         <div class="col-sm-6 col-lg-4 col-xl-3 card-pos">
             <div class="card">
-                <img class="card-img-top" src="{{category.img_link}}" alt="Category image">
+                <img class="card-img-top" src="{{category.img_link}}"
+                    onerror="this.src='{{ url_for('static', filename='images/default.png') }}'" alt="Category image">
 
                 <div class="card-body text-center">
                     <h5 class="card-title">
@@ -106,7 +108,8 @@
         {% for appliance in appliances %}
         <div class="col-sm-6 col-lg-4 col-xl-3 card-pos">
             <div class="card">
-                <img class="card-img-top" src="{{appliance.img_link}}" alt="Appliance image">
+                <img class="card-img-top" src="{{appliance.img_link}}"
+                    onerror="this.src='{{ url_for('static', filename='images/default.png') }}'" alt="Appliance image">
 
                 <div class="card-body text-center">
                     <h5 class="card-title">
@@ -126,7 +129,8 @@
         {% for category in appliance_categories %}
         <div class="col-sm-6 col-lg-4 col-xl-3 card-pos">
             <div class="card">
-                <img class="card-img-top" src="{{category.img_link}}" alt="Category image">
+                <img class="card-img-top" src="{{category.img_link}}"
+                    onerror="this.src='{{ url_for('static', filename='images/default.png') }}'" alt="Category image">
 
                 <div class="card-body text-center">
                     <h5 class="card-title">

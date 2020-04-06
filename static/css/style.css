@@ -68,6 +68,10 @@
     min-height: 100vh;
 }
 
+.view-container div img {
+    width: 18.75rem;
+}
+
 /* ---------------------------- addform section */
 
 .addform-container {
