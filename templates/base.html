@@ -15,10 +15,10 @@
         integrity="sha256-c+C87jupO1otD1I5uyxV68WmSLCqtIoNlcHLXtzLCT0=" crossorigin="anonymous" />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../static/css/style.css" type="text/css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css" />
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="../static/images/favicon.png" />
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.png') }}" />
 
     <title>Flask Recipes</title>
 </head>
