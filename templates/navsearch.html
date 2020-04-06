@@ -13,7 +13,8 @@
 
         <div class="col-sm-6 col-lg-4 col-xl-3 card-pos">
             <div class="card">
-                <img class="card-img-top" src="{{recipe.img_link}}" alt="Recipe image">
+                <img class="card-img-top" src="{{recipe.img_link}}"
+                    onerror="this.src='{{ url_for('static', filename='images/default.png') }}'" alt="Recipe image">
 
                 <div class="card-body text-center">
                     <h5 class="card-title">
