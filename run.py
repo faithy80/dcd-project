@@ -169,10 +169,19 @@ def update_recipe(db_id):
 @app.route('/update_recipe_category/<db_id>', methods=['POST'])
 def update_recipe_category(db_id):
     """Updates a recipe category in the database and redirects to the list of all recipe categories"""
+    previous_name = mongo.db.recipe_categories.find_one({'_id': ObjectId(db_id)})['name']
     mongo.db.recipe_categories.update({'_id': ObjectId(db_id)},
     {
-        'name' :  request.form.get('name'),
-        'img_link' : request.form.get('img_link')
+        '$set':{
+            'name' :  request.form.get('name'),
+            'img_link' : request.form.get('img_link')
+        }
+    })
+    mongo.db.recipes.update_many({'category' : previous_name},
+    {
+        '$set': {
+            'category' : request.form.get('name')
+        }
     })
     return redirect(url_for('search', collection='recipe_categories'))
 
