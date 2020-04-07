@@ -71,6 +71,8 @@
                             class="btn btn-link">{{category.name}}</a>
                     </h5>
 
+                    <p>{{category.number_of_recipes}} recipe(s) in this category.</p>
+
                     <div class="card-button">
                         <a href="{{ url_for('edit_form', db_id=category._id, collection='recipe_category') }}"
                             class="btn btn-primary btn--orange">Edit</a>
@@ -142,6 +144,8 @@
                         <a href="{{ url_for('search', collection='appliances', find=category.name) }}"
                             class="btn btn-link">{{category.name}}</a>
                     </h5>
+
+                    <p>{{category.number_of_appliances}} appliance(s) in this category.</p>
                 </div>
             </div>
         </div>

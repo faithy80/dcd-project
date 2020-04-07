@@ -11,6 +11,17 @@ app.config['MONGO_URI'] = os.environ.get('MONGO_URI')
 
 mongo = PyMongo(app)
 
+def update_db(category):
+    """Updates the number of recipes in the given recipe category"""
+    counter = mongo.db.recipes.find({'category' : category}).count()
+    mongo.db.recipe_categories.update({'name': category},
+        {
+            '$set' : {
+                'number_of_recipes' : counter
+            }
+        })
+    return
+
 
 @app.route('/')
 def index():
@@ -112,12 +123,14 @@ def insert_recipe():
         'category' : request.form.get('category'),
         'ingredients' : request.form.get('ingredients').split('\n'),
         'method' : request.form.get('method').split('\n'),
+        'appliances' : [],
         'img_link' : request.form.get('img_link'),
         'reviews' : [],
         'servings' : request.form.get('servings'),
         'view_stat' : 0
     }
     mongo.db.recipes.insert_one(recipe)
+    update_db(request.form.get('category'))
     return redirect(url_for('search', collection='recipes', find='all'))
 
 
@@ -126,7 +139,8 @@ def insert_recipe_category():
     """Inserts a recipe category into the database and redirects to the list of all recipe categories"""
     recipe_category = {
         'name' :  request.form.get('name'),
-        'img_link' : request.form.get('img_link')
+        'img_link' : request.form.get('img_link'),
+        'number_of_recipes' : 0
     }
     mongo.db.recipe_categories.insert_one(recipe_category)
     return redirect(url_for('search', collection='recipe_categories'))
@@ -135,6 +149,7 @@ def insert_recipe_category():
 @app.route('/update_recipe/<db_id>', methods=['POST'])
 def update_recipe(db_id):
     """Updates a recipe in the database and redirects to the list of all recipes"""
+    previous_category = mongo.db.recipes.find_one({'_id': ObjectId(db_id)})['category']
     mongo.db.recipes.update({'_id': ObjectId(db_id)},
     {
         '$set': {
@@ -146,6 +161,8 @@ def update_recipe(db_id):
             'servings' : request.form.get('servings')
         }
     })
+    update_db(previous_category)
+    update_db(request.form.get('category'))
     return redirect(url_for('search', collection='recipes', find ='all'))
 
 
@@ -163,7 +180,9 @@ def update_recipe_category(db_id):
 @app.route('/delete_recipe/<db_id>')
 def delete_recipe(db_id):
     """Removes a recipe from the database and redirects to the list of all recipes"""
+    category = mongo.db.recipes.find_one({'_id': ObjectId(db_id)})['category']
     mongo.db.recipes.remove({'_id': ObjectId(db_id)})
+    update_db(category)
     return redirect(url_for('search', collection='recipes', find ='all'))
 
 
