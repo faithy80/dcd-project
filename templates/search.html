@@ -26,29 +26,8 @@
                     <div class="card-button">
                         <a href="{{ url_for('edit_form', db_id=recipe._id, collection='recipe') }}"
                             class="btn btn-primary btn--orange">Edit</a>
-                        <button type="button" class="btn btn-primary btn--orange" data-toggle="modal"
-                            data-target="#confirmModal_{{recipe._id}}">Delete</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- confirmModal -->
-        <div class="modal fade" id="confirmModal_{{recipe._id}}" tabindex="-1" role="dialog"
-            aria-labelledby="confirmModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-                <div class="modal-content text-center">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="confirmModalLabel">Recipe</h5>
-                    </div>
-
-                    <div class="modal-body">
-                        Are you sure to delete?
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
-                        <a href="{{ url_for('delete_recipe', db_id=recipe._id) }}" class="btn btn-danger">Delete</a>
+                        <button type="button" class="btn btn-primary btn--orange"
+                            onclick="ConfirmMessage('recipe', '{{ url_for('delete_recipe', db_id=recipe._id) }}')">Delete</a>
                     </div>
                 </div>
             </div>
@@ -76,30 +55,8 @@
                     <div class="card-button">
                         <a href="{{ url_for('edit_form', db_id=category._id, collection='recipe_category') }}"
                             class="btn btn-primary btn--orange">Edit</a>
-                        <button type="button" class="btn btn-primary btn--orange" data-toggle="modal"
-                            data-target="#confirmModal_{{category._id}}">Delete</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- confirmModal -->
-        <div class="modal fade" id="confirmModal_{{category._id}}" tabindex="-1" role="dialog"
-            aria-labelledby="confirmModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-                <div class="modal-content text-center">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="confirmModalLabel">Recipe category</h5>
-                    </div>
-
-                    <div class="modal-body">
-                        Are you sure to delete?
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
-                        <a href="{{ url_for('delete_recipe_category', db_id=category._id) }}"
-                            class="btn btn-danger">Delete</a>
+                        <button type="button" class="btn btn-primary btn--orange"
+                            onclick="ConfirmMessage('recipe category', '{{ url_for('delete_recipe_category', db_id=category._id) }}')">Delete</button>
                     </div>
                 </div>
             </div>
