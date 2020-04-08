@@ -41,6 +41,20 @@
                         required>{{recipe.method|join('\n')}}</textarea>
                 </div>
 
+                <p>Please choose from the following appliances:</p>
+
+                {% for category in categories %}
+
+                <div class="form-check-inline">
+                    <label class="form-check-label" for="id_{{category._id}}">
+                        <input type="checkbox" class="form-check-input" id="id_{{category._id}}"
+                            name="appliance_categories" value="{{category.name}}"
+                            {% if category.name in recipe.appliances %}checked{% endif %}>{{category.name}}
+                    </label>
+                </div>
+
+                {% endfor %}
+
                 <div class="form-group">
                     <label for="img_link">Image URL</label>
                     <input type="text" class="form-control" id="img_link" name="img_link" value="{{recipe.img_link}}"

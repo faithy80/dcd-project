@@ -97,7 +97,7 @@ def view(db_id):
 def add_form():
     """Returns a form for a new recipe or reicpe category"""
     if request.args['collection'] == 'recipe':
-        return render_template('add_form.html', collection=mongo.db.recipe_categories.find())
+        return render_template('add_form.html', collection=mongo.db.recipe_categories.find(), categories=mongo.db.appliance_categories.find())
     elif request.args['collection'] == 'category':
         return render_template('add_form.html')
     else:
@@ -108,7 +108,7 @@ def add_form():
 def edit_form(db_id):
     """Returns a form to edit an existing recipe or recipe category"""
     if request.args['collection'] == 'recipe':
-        return render_template('edit_form.html', collection=mongo.db.recipe_categories.find(), recipe = mongo.db.recipes.find_one({"_id": ObjectId(db_id)}))
+        return render_template('edit_form.html', collection=mongo.db.recipe_categories.find(), recipe = mongo.db.recipes.find_one({"_id": ObjectId(db_id)}), categories=mongo.db.appliance_categories.find())
     elif request.args['collection'] == 'recipe_category':
         return render_template('edit_form.html', recipe_category=mongo.db.recipe_categories.find_one({"_id": ObjectId(db_id)}))
     else:
@@ -123,10 +123,10 @@ def insert_recipe():
         'category' : request.form.get('category'),
         'ingredients' : request.form.get('ingredients').split('\n'),
         'method' : request.form.get('method').split('\n'),
-        'appliances' : [],
+        'appliances' : request.form.getlist('appliance_categories'),
         'img_link' : request.form.get('img_link'),
         'reviews' : [],
-        'servings' : request.form.get('servings'),
+        'servings' : int(request.form.get('servings')),
         'view_stat' : 0
     }
     mongo.db.recipes.insert_one(recipe)
@@ -157,8 +157,9 @@ def update_recipe(db_id):
             'category' : request.form.get('category'),
             'ingredients' : request.form.get('ingredients').split('\n'),
             'method' : request.form.get('method').split('\n'),
+            'appliances' : request.form.getlist('appliance_categories'),
             'img_link' : request.form.get('img_link'),
-            'servings' : request.form.get('servings')
+            'servings' : int(request.form.get('servings'))
         }
     })
     update_db(previous_category)

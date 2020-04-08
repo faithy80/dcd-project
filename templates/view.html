@@ -30,6 +30,17 @@
                 {% endfor %}
             </ul>
 
+            <p>Appliances used for the recipe:</p>
+            <ul>
+                {% for category in recipe.appliances %}
+                <li>
+                    <a class="btn btn-link" href="{{ url_for('search', collection='appliances', find=category) }}"
+                        target="_blank">{{category}}</a>
+                </li>
+                {% endfor %}
+            </ul>
+
+
             <p>Reviews:</p>
             <ul>
                 {% for review in recipe.reviews %}

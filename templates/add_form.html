@@ -17,9 +17,14 @@
                 <div class="form-group">
                     <label for="category">Category</label>
                     <select class="form-control" id="category" name="category" required>
+
+
                         {% for category in collection %}
+
                         <option>{{category.name}}</option>
+
                         {% endfor %}
+
                     </select>
                 </div>
 
@@ -36,6 +41,19 @@
                     <label for="method">Method</label>
                     <textarea class="form-control" id="method" name="method" rows="3" required></textarea>
                 </div>
+
+                <p>Please choose from the following appliances:</p>
+
+                {% for category in categories %}
+
+                <div class="form-check-inline">
+                    <label class="form-check-label" for="id_{{category._id}}">
+                        <input type="checkbox" class="form-check-input" id="id_{{category._id}}"
+                            name="appliance_categories" value="{{category.name}}">{{category.name}}
+                    </label>
+                </div>
+
+                {% endfor %}
 
                 <div class="form-group">
                     <label for="img_link">Image URL</label>
