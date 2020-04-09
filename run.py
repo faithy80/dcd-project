@@ -23,6 +23,37 @@ def update_db(category):
     return
 
 
+def validate_form(form, collection):
+    """Returns an error list if the recipe, recipe collection or review form fails on validation"""
+    error_list = []
+    if collection == 'recipe':
+        if not form['title'] or len(form['title']) > 20:
+            error_list.append('Title must not be empty or more than 20 characters!')
+        if not form['category'] or len(form['category']) > 20:
+            error_list.append('Category must not be empty or more than 20 characters!')
+        if not form['ingredients'] or len(form['ingredients']) > 20:
+            error_list.append('Ingredients must not be empty or more than 20 characters!')
+        if not form['method'] or len(form['method']) > 20:
+            error_list.append('Method must not be empty or more than 20 characters!')
+        if 'appliance_categories' not in form:
+            error_list.append('At least one of the appliances should be checked!')
+        if len(''.join(form.getlist('appliance_categories'))) > 20:
+            error_list.append('Appliances must not be more than 20 characters!')
+        if not form['img_link'] or len(form['img_link']) > 20:
+            error_list.append('Image URL must not be empty or more than 20 characters!!')
+        try:
+            if not form['servings'] or int(form['servings']) > 10:
+                error_list.append('Servings must not be empty or more than 10!')
+        except ValueError:
+            error_list.append('Servings is not a number!')
+    elif collection == 'recipe_category':
+        if not form['name'] or len(form['name']) > 20:
+            error_list.append('Category name must not be empty or more than 20 characters!')
+        if not form['img_link'] or len(form['img_link']) > 20:
+            error_list.append('Image URL must not be empty or more than 20 characters!')
+    return error_list
+
+
 @app.route('/')
 def index():
     """Returns the landing page"""
@@ -97,7 +128,7 @@ def view(db_id):
 def add_form():
     """Returns a form for a new recipe or reicpe category"""
     if request.args['collection'] == 'recipe':
-        return render_template('add_form.html', collection=mongo.db.recipe_categories.find(), categories=mongo.db.appliance_categories.find())
+        return render_template('add_form.html', collection=mongo.db.recipe_categories.find().sort('name'), categories=mongo.db.appliance_categories.find().sort('name)'))
     elif request.args['collection'] == 'category':
         return render_template('add_form.html')
     else:
@@ -108,7 +139,7 @@ def add_form():
 def edit_form(db_id):
     """Returns a form to edit an existing recipe or recipe category"""
     if request.args['collection'] == 'recipe':
-        return render_template('edit_form.html', collection=mongo.db.recipe_categories.find(), recipe = mongo.db.recipes.find_one({"_id": ObjectId(db_id)}), categories=mongo.db.appliance_categories.find())
+        return render_template('edit_form.html', collection=mongo.db.recipe_categories.find().sort('name'), recipe = mongo.db.recipes.find_one({"_id": ObjectId(db_id)}), categories=mongo.db.appliance_categories.find().sort('name'))
     elif request.args['collection'] == 'recipe_category':
         return render_template('edit_form.html', recipe_category=mongo.db.recipe_categories.find_one({"_id": ObjectId(db_id)}))
     else:
@@ -118,33 +149,43 @@ def edit_form(db_id):
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
     """Inserts a recipe into the database and redirects to the list of all recipes"""
-    recipe = {
-        'title' :  request.form.get('title'),
-        'category' : request.form.get('category'),
-        'ingredients' : request.form.get('ingredients').split('\n'),
-        'method' : request.form.get('method').split('\n'),
-        'appliances' : request.form.getlist('appliance_categories'),
-        'img_link' : request.form.get('img_link'),
-        'reviews' : [],
-        'servings' : int(request.form.get('servings')),
-        'view_stat' : 0
-    }
-    mongo.db.recipes.insert_one(recipe)
-    update_db(request.form.get('category'))
-    return redirect(url_for('search', collection='recipes', find='all'))
+    form = request.form
+    appliance_list = request.form.getlist('appliance_categories')
+    error_list = validate_form(form, 'recipe')
+    if error_list == []:
+        recipe = {
+            'title' :  request.form.get('title'),
+            'category' : request.form.get('category'),
+            'ingredients' : request.form.get('ingredients').split('\n'),
+            'method' : request.form.get('method').split('\n'),
+            'appliances' : request.form.getlist('appliance_categories'),
+            'img_link' : request.form.get('img_link'),
+            'reviews' : [],
+            'servings' : request.form.get('servings'),
+            'view_stat' : 0
+        }
+        mongo.db.recipes.insert_one(recipe)
+        update_db(request.form.get('category'))
+        return redirect(url_for('search', collection='recipes', find='all'))
+    else:
+        return render_template('add_form.html', collection=mongo.db.recipe_categories.find().sort('name'), categories=mongo.db.appliance_categories.find().sort('name)'), errors=error_list, form=form, appliance_list=appliance_list)
 
 
 @app.route('/insert_recipe_category', methods=['POST'])
 def insert_recipe_category():
     """Inserts a recipe category into the database and redirects to the list of all recipe categories"""
-    recipe_category = {
-        'name' :  request.form.get('name'),
-        'img_link' : request.form.get('img_link'),
-        'number_of_recipes' : 0
-    }
-    mongo.db.recipe_categories.insert_one(recipe_category)
-    return redirect(url_for('search', collection='recipe_categories'))
-
+    form = request.form
+    error_list = validate_form(form, 'recipe_category')
+    if error_list == []:
+        recipe_category = {
+            'name' :  request.form.get('name'),
+            'img_link' : request.form.get('img_link'),
+            'number_of_recipes' : 0
+        }
+        mongo.db.recipe_categories.insert_one(recipe_category)
+        return redirect(url_for('search', collection='recipe_categories'))
+    else:
+        return render_template('add_form.html', errors=error_list, form=form)
 
 @app.route('/update_recipe/<db_id>', methods=['POST'])
 def update_recipe(db_id):
@@ -159,7 +200,7 @@ def update_recipe(db_id):
             'method' : request.form.get('method').split('\n'),
             'appliances' : request.form.getlist('appliance_categories'),
             'img_link' : request.form.get('img_link'),
-            'servings' : int(request.form.get('servings'))
+            'servings' : request.form.get('servings')
         }
     })
     update_db(previous_category)
