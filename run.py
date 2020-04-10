@@ -51,6 +51,9 @@ def validate_form(form, collection):
             error_list.append('Category name must not be empty or more than 20 characters!')
         if not form['img_link'] or len(form['img_link']) > 20:
             error_list.append('Image URL must not be empty or more than 20 characters!')
+    elif collection == 'review':
+        if not form['review'] or len(form['review']) > 20:
+            error_list.append('Category name must not be empty or more than 20 characters!')
     return error_list
 
 
@@ -258,21 +261,31 @@ def delete_recipe_category(db_id):
 def add_review(db_id):
     """Adds a review to a recipe or an appliance and refreshes the view page"""
     if request.args['collection'] == 'recipe':
-        mongo.db.recipes.update({'_id': ObjectId(db_id)},
-        {
-            '$push' : {
-                'reviews' : request.form.get('review')
-            }
-        })
-        return redirect(url_for('view', db_id=db_id, collection='recipes'))
+        form = request.form
+        error_list = validate_form(form, 'review')
+        if error_list == []:
+            mongo.db.recipes.update({'_id': ObjectId(db_id)},
+            {
+                '$push' : {
+                    'reviews' : request.form.get('review')
+                }
+            })
+            return redirect(url_for('view', db_id=db_id, collection='recipes'))
+        else:
+            return render_template('view.html', recipe=mongo.db.recipes.find_one({"_id": ObjectId(db_id)}), errors=error_list, form=form)
     elif request.args['collection'] == 'appliance':
-        mongo.db.appliances.update({'_id': ObjectId(db_id)},
-        {
-            '$push' : {
-                'reviews' : request.form.get('review')
-            }
-        })
-        return redirect(url_for('view', db_id=db_id, collection='appliances'))
+        form = request.form
+        error_list = validate_form(form, 'review')
+        if error_list == []:
+            mongo.db.appliances.update({'_id': ObjectId(db_id)},
+            {
+                '$push' : {
+                    'reviews' : request.form.get('review')
+                }
+            })
+            return redirect(url_for('view', db_id=db_id, collection='appliances'))
+        else:
+            return render_template('view.html', appliance=mongo.db.appliances.find_one({"_id": ObjectId(db_id)}), errors=error_list, form=form)
     else:
         return render_template('error.html', msg='Bad argument error! (/add_review)')
 

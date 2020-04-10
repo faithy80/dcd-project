@@ -2,12 +2,23 @@
 
 {% block content %}
 
-{% if recipe %}
-
 <!-- view section -->
 <section class="container-fluid view-container">
     <div class="row">
         <div class="col-12">
+
+            {% if errors %}
+            <div class="alert alert-danger">
+                <ul>
+                    {% for error in errors %}
+                    <li>{{error}}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            {% if recipe %}
+
             <img src="{{recipe.img_link}}" onerror="this.src='{{ url_for('static', filename='images/default.png') }}'"
                 alt="Recipe image" />
             <h2>{{recipe.title}}</h2>
@@ -50,6 +61,20 @@
 
             <p>Viewed: {{recipe.view_stat}} times</p>
 
+            {% if form %}
+
+            <form action="{{ url_for('add_review', db_id=recipe._id, collection='recipe') }}" method="POST">
+                <div class="form-group">
+                    <label for="review">Add review</label>
+                    <textarea class="form-control" id="review" name="review" rows="3"
+                        required>{{form.review}}</textarea>
+                </div>
+
+                <button type="submit" name="action" class="btn btn-primary btn--orange">Submit review</button>
+            </form>
+
+            {% else %}
+
             <form action="{{ url_for('add_review', db_id=recipe._id, collection='recipe') }}" method="POST">
                 <div class="form-group">
                     <label for="review">Add review</label>
@@ -58,16 +83,11 @@
 
                 <button type="submit" name="action" class="btn btn-primary btn--orange">Submit review</button>
             </form>
-        </div>
-    </div>
-</section>
 
-{% elif appliance %}
+            {% endif %}
 
-<!-- view section -->
-<section class="container-fluid view-container">
-    <div class="row">
-        <div class="col-12">
+            {% elif appliance %}
+
             <img src="{{appliance.img_link}}"
                 onerror="this.src='{{ url_for('static', filename='images/default.png') }}'" alt="Appliance image" />
 
@@ -92,6 +112,22 @@
 
             <p>Viewed: {{appliance.view_stat}} times</p>
 
+            {% if form %}
+
+            <form action="{{ url_for('add_review', db_id=appliance._id, collection='appliance') }}" method="POST">
+                <div class="form-group">
+                    <label for="review">Add review</label>
+                    <textarea class="form-control" id="review" name="review" rows="3"
+                        required>{{form.review}}</textarea>
+                </div>
+
+                <button type="submit" name="action" class="btn btn-primary btn--orange">Submit review</button>
+            </form>
+
+            {% else %}
+
+            {% endif %}
+
             <form action="{{ url_for('add_review', db_id=appliance._id, collection='appliance') }}" method="POST">
                 <div class="form-group">
                     <label for="review">Add review</label>
@@ -100,10 +136,11 @@
 
                 <button type="submit" name="action" class="btn btn-primary btn--orange">Submit review</button>
             </form>
+
+            {% endif %}
+
         </div>
     </div>
 </section>
-
-{% endif %}
 
 {% endblock %}
