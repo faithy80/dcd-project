@@ -7,8 +7,101 @@
     <div class="row">
         <div class="col-12">
 
-            {% if collection %}
+            {% if errors %}
+            <div class="alert alert-danger">
+                <ul>
+                    {% for error in errors %}
+                    <li>{{error}}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
 
+            {% if form %}
+
+            {% if collection %}
+            <form action="{{ url_for('update_recipe', db_id=recipe._id) }}" method="POST">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" id="title" name="title" value="{{form.title}}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select class="form-control" id="category" name="category" required>
+                        <option>{{form.category}}</option>
+
+                        {% for category in collection %}
+                        <option>{{category.name}}</option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+
+                <p>Please use Enter to separate ingredients from each other!</p>
+
+                <div class="form-group">
+                    <label for="ingredients">Ingredients</label>
+                    <textarea class="form-control" id="ingredients" name="ingredients" rows="3"
+                        required>{{form.ingredients}}</textarea>
+                </div>
+
+                <p>Please use Enter to separate method steps from each other!</p>
+
+                <div class="form-group">
+                    <label for="method">Method</label>
+                    <textarea class="form-control" id="method" name="method" rows="3"
+                        required>{{form.method}}</textarea>
+                </div>
+
+                <p>Please choose from the following appliances:</p>
+
+                {% for category in categories %}
+                <div class="form-check-inline">
+                    <label class="form-check-label" for="id_{{category._id}}">
+                        <input type="checkbox" class="form-check-input" id="id_{{category._id}}"
+                            name="appliance_categories" value="{{category.name}}"
+                            {% if category.name in appliance_list %}checked{% endif %}>{{category.name}}
+                    </label>
+                </div>
+                {% endfor %}
+
+                <div class="form-group">
+                    <label for="img_link">Image URL</label>
+                    <input type="text" class="form-control" id="img_link" name="img_link" value="{{form.img_link}}"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="servings">Servings</label>
+                    <input type="number" class="form-control" id="servings" name="servings" value="{{form.servings}}"
+                        required>
+                </div>
+
+                <button type="submit" name="action" class="btn btn-primary btn--orange">Submit recipe</button>
+            </form>
+
+            {% else %}
+
+            <form action="{{ url_for('update_recipe_category', db_id=recipe_category._id) }}" method="POST">
+                <div class="form-group">
+                    <label for="name">Category name</label>
+                    <input type="text" class="form-control" id="name" name="name" value="{{form.name}}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="img_link">Image URL</label>
+                    <input type="text" class="form-control" id="img_link" name="img_link" value="{{form.img_link}}"
+                        requires>
+                </div>
+
+                <button type="submit" name="action" class="btn btn-primary btn--orange">Submit category</button>
+            </form>
+            {% endif %}
+
+            {% else %}
+
+            {% if collection %}
             <form action="{{ url_for('update_recipe', db_id=recipe._id) }}" method="POST">
                 <div class="form-group">
                     <label for="title">Title</label>
@@ -87,6 +180,7 @@
 
                 <button type="submit" name="action" class="btn btn-primary btn--orange">Update category</button>
             </form>
+            {% endif %}
 
             {% endif %}
 

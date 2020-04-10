@@ -190,42 +190,52 @@ def insert_recipe_category():
 @app.route('/update_recipe/<db_id>', methods=['POST'])
 def update_recipe(db_id):
     """Updates a recipe in the database and redirects to the list of all recipes"""
-    previous_category = mongo.db.recipes.find_one({'_id': ObjectId(db_id)})['category']
-    mongo.db.recipes.update({'_id': ObjectId(db_id)},
-    {
-        '$set': {
-            'title' :  request.form.get('title'),
-            'category' : request.form.get('category'),
-            'ingredients' : request.form.get('ingredients').split('\n'),
-            'method' : request.form.get('method').split('\n'),
-            'appliances' : request.form.getlist('appliance_categories'),
-            'img_link' : request.form.get('img_link'),
-            'servings' : request.form.get('servings')
-        }
-    })
-    update_db(previous_category)
-    update_db(request.form.get('category'))
-    return redirect(url_for('search', collection='recipes', find ='all'))
-
+    form = request.form
+    appliance_list = request.form.getlist('appliance_categories')
+    error_list = validate_form(form, 'recipe')
+    if error_list == []:
+        previous_category = mongo.db.recipes.find_one({'_id': ObjectId(db_id)})['category']
+        mongo.db.recipes.update({'_id': ObjectId(db_id)},
+        {
+            '$set': {
+                'title' :  request.form.get('title'),
+                'category' : request.form.get('category'),
+                'ingredients' : request.form.get('ingredients').split('\n'),
+                'method' : request.form.get('method').split('\n'),
+                'appliances' : request.form.getlist('appliance_categories'),
+                'img_link' : request.form.get('img_link'),
+                'servings' : request.form.get('servings')
+            }
+        })
+        update_db(previous_category)
+        update_db(request.form.get('category'))
+        return redirect(url_for('search', collection='recipes', find ='all'))
+    else:
+        return render_template('edit_form.html', collection=mongo.db.recipe_categories.find().sort('name'), recipe = mongo.db.recipes.find_one({"_id": ObjectId(db_id)}), categories=mongo.db.appliance_categories.find().sort('name'), errors=error_list, form=form, appliance_list=appliance_list)
 
 @app.route('/update_recipe_category/<db_id>', methods=['POST'])
 def update_recipe_category(db_id):
     """Updates a recipe category in the database and redirects to the list of all recipe categories"""
-    previous_name = mongo.db.recipe_categories.find_one({'_id': ObjectId(db_id)})['name']
-    mongo.db.recipe_categories.update({'_id': ObjectId(db_id)},
-    {
-        '$set':{
-            'name' :  request.form.get('name'),
-            'img_link' : request.form.get('img_link')
-        }
-    })
-    mongo.db.recipes.update_many({'category' : previous_name},
-    {
-        '$set': {
-            'category' : request.form.get('name')
-        }
-    })
-    return redirect(url_for('search', collection='recipe_categories'))
+    form = request.form
+    error_list = validate_form(form, 'recipe_category')
+    if error_list == []:
+        previous_name = mongo.db.recipe_categories.find_one({'_id': ObjectId(db_id)})['name']
+        mongo.db.recipe_categories.update({'_id': ObjectId(db_id)},
+        {
+            '$set':{
+                'name' :  request.form.get('name'),
+                'img_link' : request.form.get('img_link')
+            }
+        })
+        mongo.db.recipes.update_many({'category' : previous_name},
+        {
+            '$set': {
+                'category' : request.form.get('name')
+            }
+        })
+        return redirect(url_for('search', collection='recipe_categories'))
+    else:
+        return render_template('edit_form.html', recipe_category=mongo.db.recipe_categories.find_one({"_id": ObjectId(db_id)}), errors=error_list, form=form)
 
 
 @app.route('/delete_recipe/<db_id>')
