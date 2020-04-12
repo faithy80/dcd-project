@@ -67,6 +67,8 @@
                 </div>
                 {% endfor %}
 
+                <p>Please choose JPG, GIF, PNG or BMP images:</p>
+                
                 <div class="form-group">
                     <label for="img_link">Image URL</label>
                     <input type="text" class="form-control" id="img_link" name="img_link" value="{{form.img_link}}"
@@ -90,6 +92,8 @@
                     <input type="text" class="form-control" id="name" name="name" value="{{form.name}}" maxlength="50"
                         required>
                 </div>
+
+                <p>Please choose JPG, GIF, PNG or BMP images:</p>
 
                 <div class="form-group">
                     <label for="img_link">Image URL</label>
@@ -140,7 +144,6 @@
                 <p>Please choose from the following appliances:</p>
 
                 {% for category in categories %}
-
                 <div class="form-check-inline">
                     <label class="form-check-label" for="id_{{category._id}}">
                         <input type="checkbox" class="form-check-input" id="id_{{category._id}}"
@@ -148,8 +151,9 @@
                             {% if category.name in recipe.appliances %}checked{% endif %}>{{category.name}}
                     </label>
                 </div>
-
                 {% endfor %}
+
+                <p>Please choose JPG, GIF, PNG or BMP images:</p>
 
                 <div class="form-group">
                     <label for="img_link">Image URL</label>
@@ -174,6 +178,8 @@
                     <input type="text" class="form-control" id="name" name="name" value="{{recipe_category.name}}"
                         maxlength="50" required>
                 </div>
+
+                <p>Please choose JPG, GIF, PNG or BMP images:</p>
 
                 <div class="form-group">
                     <label for="img_link">Image URL</label>

@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, url_for, redirect
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 import re
+import requests
 
 app = Flask(__name__)
 
@@ -11,16 +12,19 @@ app.config['MONGO_URI'] = os.environ.get('MONGO_URI')
 
 mongo = PyMongo(app)
 
-def update_db(category):
+def update_quantity_in_category(category):
     """Updates the number of recipes in the given recipe category"""
+
+    # count the number of recipes
     counter = mongo.db.recipes.find({'category' : category}).count()
+
+    # update in database
     mongo.db.recipe_categories.update({'name': category},
         {
             '$set' : {
                 'number_of_recipes' : counter
             }
         })
-    return
 
 
 def validate_form(form, collection):
@@ -76,6 +80,33 @@ def validate_form(form, collection):
 
     # return errors if there is any        
     return error_list
+
+
+def validate_image(image):
+    """Returns image URL if the URL is an image, otherwise returns a fallback URL"""
+    
+    # set fallback URL
+    fallback_URL = url_for('static', filename='images/default.png')
+
+    try:
+        resp = requests.get(image)
+        r = resp.headers.get('content-type')
+
+        # test if the URL is valid and image
+        if resp.status_code == 200:
+            # URL is valid
+            if r == 'image/jpeg' or r == 'image/bmp' or r == 'image/png' or r == 'image/gif':
+                # URL is image
+                return image
+            else:
+                # URL is not an image
+                return fallback_URL
+        else:
+            # URL is invalid
+            return fallback_URL
+    except:
+        # URL is invalid
+        return fallback_URL
 
 
 @app.route('/')
@@ -173,52 +204,84 @@ def edit_form(db_id):
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
     """Inserts a recipe into the database and redirects to the list of all recipes"""
+
+    # validate request form
     form = request.form
     appliance_list = request.form.getlist('appliance_categories')
     error_list = validate_form(form, 'recipe')
+
     if error_list == []:
+        # validate image URL
+        image_URL = validate_image(form['img_link'])
+
+        # insert recipe
         recipe = {
             'title' :  request.form.get('title'),
             'category' : request.form.get('category'),
             'ingredients' : request.form.get('ingredients').split('\n'),
             'method' : request.form.get('method').split('\n'),
             'appliances' : request.form.getlist('appliance_categories'),
-            'img_link' : request.form.get('img_link'),
+            'img_link' : image_URL,
             'reviews' : [],
             'servings' : request.form.get('servings'),
             'view_stat' : 0
         }
         mongo.db.recipes.insert_one(recipe)
-        update_db(request.form.get('category'))
-        return redirect(url_for('search', collection='recipes', find='all'))
+
+        # update recipe numbers in category
+        update_quantity_in_category(request.form.get('category'))
+
+        # redirect to the landing page
+        return redirect(url_for('index'))
     else:
+        # send error list back to the form to correct mistakes
         return render_template('add_form.html', collection=mongo.db.recipe_categories.find().sort('name'), categories=mongo.db.appliance_categories.find().sort('name)'), errors=error_list, form=form, appliance_list=appliance_list)
 
 
 @app.route('/insert_recipe_category', methods=['POST'])
 def insert_recipe_category():
     """Inserts a recipe category into the database and redirects to the list of all recipe categories"""
+
+    # validate request form
     form = request.form
     error_list = validate_form(form, 'recipe_category')
+
     if error_list == []:
+        # validate image URL
+        image_URL = validate_image(form['img_link'])
+
+        # insert recipe category
         recipe_category = {
             'name' :  request.form.get('name'),
-            'img_link' : request.form.get('img_link'),
+            'img_link' : image_URL,
             'number_of_recipes' : 0
         }
         mongo.db.recipe_categories.insert_one(recipe_category)
-        return redirect(url_for('search', collection='recipe_categories'))
+
+        # redirect to the landing page
+        return redirect(url_for('index'))
     else:
+        # send error list back to the form to correct mistakes
         return render_template('add_form.html', errors=error_list, form=form)
+
 
 @app.route('/update_recipe/<db_id>', methods=['POST'])
 def update_recipe(db_id):
     """Updates a recipe in the database and redirects to the list of all recipes"""
+
+    # validate request form
     form = request.form
     appliance_list = request.form.getlist('appliance_categories')
     error_list = validate_form(form, 'recipe')
+
     if error_list == []:
+        # validate image URL
+        image_URL = validate_image(form['img_link'])
+
+        # keep the old category name in case of change
         previous_category = mongo.db.recipes.find_one({'_id': ObjectId(db_id)})['category']
+        
+        # update recipe
         mongo.db.recipes.update({'_id': ObjectId(db_id)},
         {
             '$set': {
@@ -227,38 +290,60 @@ def update_recipe(db_id):
                 'ingredients' : request.form.get('ingredients').split('\n'),
                 'method' : request.form.get('method').split('\n'),
                 'appliances' : request.form.getlist('appliance_categories'),
-                'img_link' : request.form.get('img_link'),
+                'img_link' : image_URL,
                 'servings' : request.form.get('servings')
             }
         })
-        update_db(previous_category)
-        update_db(request.form.get('category'))
-        return redirect(url_for('search', collection='recipes', find ='all'))
+
+        # update counter in the old category (the recipe was taken from)
+        update_quantity_in_category(previous_category)
+
+        # update counter in the new category (the recipe was moved to)
+        update_quantity_in_category(request.form.get('category'))
+
+        # redirect to the landing page
+        return redirect(url_for('index'))
     else:
+        # send error list back to the form to correct mistakes
         return render_template('edit_form.html', collection=mongo.db.recipe_categories.find().sort('name'), recipe = mongo.db.recipes.find_one({"_id": ObjectId(db_id)}), categories=mongo.db.appliance_categories.find().sort('name'), errors=error_list, form=form, appliance_list=appliance_list)
+
 
 @app.route('/update_recipe_category/<db_id>', methods=['POST'])
 def update_recipe_category(db_id):
     """Updates a recipe category in the database and redirects to the list of all recipe categories"""
+
+    # validate request form
     form = request.form
     error_list = validate_form(form, 'recipe_category')
+
     if error_list == []:
+        # validate image URL
+        image_URL = validate_image(form['img_link'])
+
+        # keep the old category name in case of change
         previous_name = mongo.db.recipe_categories.find_one({'_id': ObjectId(db_id)})['name']
+
+        # update recipe category
         mongo.db.recipe_categories.update({'_id': ObjectId(db_id)},
         {
             '$set':{
                 'name' :  request.form.get('name'),
-                'img_link' : request.form.get('img_link')
+                'img_link' : image_URL
             }
         })
+
+        # update the old category name to the new one in the correspondent recipes
         mongo.db.recipes.update_many({'category' : previous_name},
         {
             '$set': {
                 'category' : request.form.get('name')
             }
         })
-        return redirect(url_for('search', collection='recipe_categories'))
+
+        # redirect to the landing page
+        return redirect(url_for('index'))
     else:
+        # send error list back to the form to correct mistakes
         return render_template('edit_form.html', recipe_category=mongo.db.recipe_categories.find_one({"_id": ObjectId(db_id)}), errors=error_list, form=form)
 
 
@@ -267,7 +352,7 @@ def delete_recipe(db_id):
     """Removes a recipe from the database and redirects to the list of all recipes"""
     category = mongo.db.recipes.find_one({'_id': ObjectId(db_id)})['category']
     mongo.db.recipes.remove({'_id': ObjectId(db_id)})
-    update_db(category)
+    update_quantity_in_category(category)
     return redirect(url_for('search', collection='recipes', find ='all'))
 
 
