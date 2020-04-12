@@ -12,8 +12,7 @@
 
         <div class="col-sm-6 col-lg-4 col-xl-3 card-pos">
             <div class="card">
-                <img class="card-img-top" src="{{recipe.img_link}}"
-                    onerror="this.src='{{ url_for('static', filename='images/default.png') }}'" alt="Recipe image">
+                <img class="card-img-top" src="{{recipe.img_link}}" alt="Recipe image">
 
                 <div class="card-body text-center">
                     <h5 class="card-title">
@@ -27,7 +26,7 @@
                         <a href="{{ url_for('edit_form', db_id=recipe._id, collection='recipe') }}"
                             class="btn btn-primary btn--orange">Edit</a>
                         <button type="button" class="btn btn-primary btn--orange"
-                            onclick="ConfirmMessage('recipe', '{{ url_for('delete_recipe', db_id=recipe._id) }}')">Delete</a>
+                            onclick="ConfirmMessage('recipe', '{{recipe._id}}')">Delete</a>
                     </div>
                 </div>
             </div>
@@ -41,8 +40,7 @@
 
         <div class="col-sm-6 col-lg-4 col-xl-3 card-pos">
             <div class="card">
-                <img class="card-img-top" src="{{category.img_link}}"
-                    onerror="this.src='{{ url_for('static', filename='images/default.png') }}'" alt="Category image">
+                <img class="card-img-top" src="{{category.img_link}}" alt="Category image">
 
                 <div class="card-body text-center">
                     <h5 class="card-title">
@@ -56,7 +54,7 @@
                         <a href="{{ url_for('edit_form', db_id=category._id, collection='recipe_category') }}"
                             class="btn btn-primary btn--orange">Edit</a>
                         <button type="button" class="btn btn-primary btn--orange"
-                            onclick="ConfirmMessage('recipe category', '{{ url_for('delete_recipe_category', db_id=category._id) }}')">Delete</button>
+                            onclick="ConfirmMessage('recipe category', '{{category._id}}')">Delete</button>
                     </div>
                 </div>
             </div>
@@ -70,8 +68,7 @@
 
         <div class="col-sm-6 col-lg-4 col-xl-3 card-pos">
             <div class="card">
-                <img class="card-img-top" src="{{appliance.img_link}}"
-                    onerror="this.src='{{ url_for('static', filename='images/default.png') }}'" alt="Appliance image">
+                <img class="card-img-top" src="{{appliance.img_link}}" alt="Appliance image">
 
                 <div class="card-body text-center">
                     <h5 class="card-title">
@@ -93,8 +90,7 @@
 
         <div class="col-sm-6 col-lg-4 col-xl-3 card-pos">
             <div class="card">
-                <img class="card-img-top" src="{{category.img_link}}"
-                    onerror="this.src='{{ url_for('static', filename='images/default.png') }}'" alt="Category image">
+                <img class="card-img-top" src="{{category.img_link}}" alt="Category image">
 
                 <div class="card-body text-center">
                     <h5 class="card-title">

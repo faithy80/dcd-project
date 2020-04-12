@@ -18,8 +18,7 @@
             {% endif %}
 
             {% if recipe %}
-            <img src="{{recipe.img_link}}" onerror="this.src='{{ url_for('static', filename='images/default.png') }}'"
-                alt="Recipe image" />
+            <img src="{{recipe.img_link}}" alt="Recipe image" />
             <h2>{{recipe.title}}</h2>
 
             <p>Category: {{recipe.category}}</p>
@@ -85,8 +84,7 @@
             {% endif %}
 
             {% elif appliance %}
-            <img src="{{appliance.img_link}}"
-                onerror="this.src='{{ url_for('static', filename='images/default.png') }}'" alt="Appliance image" />
+            <img src="{{appliance.img_link}}" alt="Appliance image" />
 
             <h2>{{appliance.brand}} {{appliance.model}}</h2>
 

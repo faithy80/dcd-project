@@ -349,18 +349,36 @@ def update_recipe_category(db_id):
 
 @app.route('/delete_recipe/<db_id>')
 def delete_recipe(db_id):
-    """Removes a recipe from the database and redirects to the list of all recipes"""
+    """Removes a recipe from the database"""
+
+    # keeps recipe category link
     category = mongo.db.recipes.find_one({'_id': ObjectId(db_id)})['category']
+
+    # removes recipe
     mongo.db.recipes.remove({'_id': ObjectId(db_id)})
+
+    # updates counter in the category
     update_quantity_in_category(category)
-    return redirect(url_for('search', collection='recipes', find ='all'))
+
+    # redirects to the landing page
+    return redirect(url_for('index'))
 
 
 @app.route('/delete_recipe_category/<db_id>')
 def delete_recipe_category(db_id):
-    """Removes a recipe category from the database and redirects to the list of all recipe categories"""
+    """Removes a recipe category and all the recipes in the category from the database"""
+
+    # determines the category name by id
+    category_name = mongo.db.recipe_categories.find_one({'_id': ObjectId(db_id)})['name']
+
+    # removes all the recipes in the category
+    mongo.db.recipes.remove({'category' : category_name})
+
+    # removes the recipe category
     mongo.db.recipe_categories.remove({'_id': ObjectId(db_id)})
-    return redirect(url_for('search', collection='recipe_categories'))
+
+    # redirects to the landing page
+    return redirect(url_for('index'))
 
 
 @app.route('/add_review/<db_id>', methods=['POST'])
