@@ -25,35 +25,56 @@ def update_db(category):
 
 def validate_form(form, collection):
     """Returns an error list if the recipe, recipe collection or review form fails on validation"""
+    
+    # variable initialization
+    max_title = 50
+    max_ingredients = 500
+    max_method = 1500
+    max_recipe_img_URL = 250
+    max_servings = 100
+    max_category_name = 50
+    max_category_img_URL = 250
+    max_review = 250
     error_list = []
+
+    # validate recipe form
     if collection == 'recipe':
-        if not form['title'] or len(form['title']) > 20:
-            error_list.append('Title must not be empty or more than 20 characters!')
-        if not form['category'] or len(form['category']) > 20:
-            error_list.append('Category must not be empty or more than 20 characters!')
-        if not form['ingredients'] or len(form['ingredients']) > 20:
-            error_list.append('Ingredients must not be empty or more than 20 characters!')
-        if not form['method'] or len(form['method']) > 20:
-            error_list.append('Method must not be empty or more than 20 characters!')
+        if not form['title'] or len(form['title']) > max_title:
+            error_list.append('Title must not be empty or more than {} characters!'.format(max_title))
+
+        if not form['ingredients'] or len(form['ingredients']) > max_ingredients:
+            error_list.append('Ingredients must not be empty or more than {} characters!'.format(max_ingredients))
+
+        if not form['method'] or len(form['method']) > max_method:
+            error_list.append('Method must not be empty or more than {} characters!'.format(max_method))
+
         if 'appliance_categories' not in form:
             error_list.append('At least one of the appliances should be checked!')
-        if len(''.join(form.getlist('appliance_categories'))) > 20:
-            error_list.append('Appliances must not be more than 20 characters!')
-        if not form['img_link'] or len(form['img_link']) > 20:
-            error_list.append('Image URL must not be empty or more than 20 characters!!')
+
+        if not form['img_link'] or len(form['img_link']) > max_recipe_img_URL:
+            error_list.append('Image URL must not be empty or more than {} characters!!'.format(max_recipe_img_URL))
+
         try:
-            if not form['servings'] or int(form['servings']) > 10:
-                error_list.append('Servings must not be empty or more than 10!')
+            if not form['servings'] or int(form['servings']) > max_servings:
+                error_list.append('Servings must not be empty or more than {}!'.format(max_servings))
+
         except ValueError:
             error_list.append('Servings is not a number!')
+    
+    # validate recipe category form
     elif collection == 'recipe_category':
-        if not form['name'] or len(form['name']) > 20:
-            error_list.append('Category name must not be empty or more than 20 characters!')
-        if not form['img_link'] or len(form['img_link']) > 20:
-            error_list.append('Image URL must not be empty or more than 20 characters!')
+        if not form['name'] or len(form['name']) > max_category_name:
+            error_list.append('Category name must not be empty or more than {} characters!'.format(max_category_name))
+
+        if not form['img_link'] or len(form['img_link']) > max_category_img_URL:
+            error_list.append('Image URL must not be empty or more than {} characters!'.format(max_category_img_URL))
+    
+    # validate review form
     elif collection == 'review':
-        if not form['review'] or len(form['review']) > 20:
-            error_list.append('Category name must not be empty or more than 20 characters!')
+        if not form['review'] or len(form['review']) > max_review:
+            error_list.append('Review must not be empty or more than {} characters!'.format(max_review))
+
+    # return errors if there is any        
     return error_list
 
 
