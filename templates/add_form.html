@@ -80,7 +80,9 @@
                         min="0" max="100" required>
                 </div>
 
-                <button type="submit" name="action" class="btn btn-primary btn--orange">Submit recipe</button>
+                <button type="submit" name="action" class="btn btn-primary btn--orange btn-inline">Submit
+                    recipe</button>
+                <a type="button" href="{{request.referrer}}" class="btn btn-primary btn--orange btn-inline">Go back</a>
             </form>
 
             {% else %}
@@ -100,7 +102,9 @@
                         maxlength="250" requires>
                 </div>
 
-                <button type="submit" name="action" class="btn btn-primary btn--orange">Submit category</button>
+                <button type="submit" name="action" class="btn btn-primary btn--orange btn-inline">Submit
+                    category</button>
+                <a type="button" href="{{request.referrer}}" class="btn btn-primary btn--orange btn-inline">Go back</a>
             </form>
             {% endif %}
 
@@ -163,7 +167,9 @@
                     <input type="number" class="form-control" id="servings" name="servings" min="0" max="100" required>
                 </div>
 
-                <button type="submit" name="action" class="btn btn-primary btn--orange">Submit recipe</button>
+                <button type="submit" name="action" class="btn btn-primary btn--orange btn-inline">Submit
+                    recipe</button>
+                <a type="button" href="{{request.referrer}}" class="btn btn-primary btn--orange btn-inline">Go back</a>
             </form>
 
             {% else %}
@@ -175,13 +181,15 @@
                 </div>
 
                 <div class="info">Please choose JPG, GIF, PNG or BMP images:</div>
-                
+
                 <div class="form-group">
                     <label for="img_link"><i class="fas fa-image custom-icons"></i>Image URL</label>
                     <input type="text" class="form-control" id="img_link" name="img_link" maxlength="250" requires>
                 </div>
 
-                <button type="submit" name="action" class="btn btn-primary btn--orange">Submit category</button>
+                <button type="submit" name="action" class="btn btn-primary btn--orange btn-inline">Submit
+                    category</button>
+                <a type="button" href="{{request.referrer}}" class="btn btn-primary btn--orange btn-inline">Go back</a>
             </form>
             {% endif %}
 

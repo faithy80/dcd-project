@@ -16,7 +16,8 @@
 
             {% endif %}
 
-            <a href="{{ url_for('index') }}" class="btn btn-primary btn--orange btn-gohome">Back to Home</a>
+            <a type="button" href="{{ url_for('index') }}" class="btn btn-primary btn--orange btn-inline">Home</a>
+            <a type="button" href="{{request.referrer}}" class="btn btn-primary btn--orange btn-inline">Go back</a>
         </div>
     </div>
 </div>
