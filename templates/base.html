@@ -20,7 +20,7 @@
     <!-- Favicon -->
     <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.png') }}" />
 
-    <title>Flask Recipes</title>
+    <title>Flask Recipes - {{page_title}}</title>
 </head>
 
 <body>
@@ -87,7 +87,11 @@
         </div>
     </nav>
 
-    {% block content%}
+    {% if page_header %}
+    <h3 class="page-header text-center">{{page_header}}</h3>
+    {% endif %}
+
+    {% block content %}
 
     {% endblock %}
 
