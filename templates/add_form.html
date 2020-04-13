@@ -46,6 +46,8 @@
                         required>{{form.ingredients}}</textarea>
                 </div>
 
+                <div id="ingredients-counter" class="float-right"></div>
+
                 <div class="info">Please use Enter to separate method steps from each other!</div>
 
                 <div class="form-group">
@@ -53,6 +55,8 @@
                     <textarea class="form-control" id="method" name="method" rows="3" maxlength="1500"
                         required>{{form.method}}</textarea>
                 </div>
+
+                <div id="method-counter" class="float-right"></div>
 
                 <div class="info">Please choose from the following appliances:</div>
 
@@ -136,6 +140,8 @@
                         required></textarea>
                 </div>
 
+                <div id="ingredients-counter" class="float-right"></div>
+
                 <div class="info">Please use Enter to separate method steps from each other!</div>
 
                 <div class="form-group">
@@ -143,6 +149,8 @@
                     <textarea class="form-control" id="method" name="method" rows="3" maxlength="1500"
                         required></textarea>
                 </div>
+
+                <div id="method-counter" class="float-right"></div>
 
                 <div class="info">Please choose from the following appliances:</div>
 
@@ -198,5 +206,7 @@
         </div>
     </div>
 </section>
+
+<script src="{{ url_for('static', filename='js/form.js') }}" defer></script>
 
 {% endblock %}

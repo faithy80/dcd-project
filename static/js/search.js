@@ -1,4 +1,4 @@
-function ConfirmMessage(type, id) {
+function confirmMessage(type, id) {
     if (type == 'recipe') {
         if (confirm("Are you sure you want to delete this " + type + " ?")) {
             document.location.href = '/delete_recipe/' + id;

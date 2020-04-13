@@ -67,6 +67,8 @@
                         required>{{form.review}}</textarea>
                 </div>
 
+                <div id="review-counter" class="float-right"></div>
+
                 <button type="submit" name="action" class="btn btn-primary btn--orange btn-inline">Submit
                     review</button>
                 <a type="button" href="{{request.referrer}}" class="btn btn-primary btn--orange btn-inline">Go back</a>
@@ -80,6 +82,8 @@
                     <textarea class="form-control" id="review" name="review" rows="3" maxlength="250"
                         required></textarea>
                 </div>
+
+                <div id="review-counter" class="float-right"></div>
 
                 <button type="submit" name="action" class="btn btn-primary btn--orange btn-inline">Submit
                     review</button>
@@ -119,6 +123,8 @@
                         required>{{form.review}}</textarea>
                 </div>
 
+                <div id="review-counter" class="float-right"></div>
+
                 <button type="submit" name="action" class="btn btn-primary btn--orange btn-inline">Submit
                     review</button>
                 <a type="button" href="{{request.referrer}}" class="btn btn-primary btn--orange btn-inline">Go back</a>
@@ -134,6 +140,8 @@
                         required></textarea>
                 </div>
 
+                <div id="review-counter" class="float-right"></div>
+
                 <button type="submit" name="action" class="btn btn-primary btn--orange btn-inline">Submit
                     review</button>
                 <a type="button" href="{{request.referrer}}" class="btn btn-primary btn--orange btn-inline">Go back</a>
@@ -143,5 +151,7 @@
         </div>
     </div>
 </section>
+
+<script src="{{ url_for('static', filename='js/review.js') }}" defer></script>
 
 {% endblock %}
