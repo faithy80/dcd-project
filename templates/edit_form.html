@@ -22,13 +22,13 @@
             {% if collection %}
             <form action="{{ url_for('update_recipe', db_id=recipe._id) }}" method="POST">
                 <div class="form-group">
-                    <label for="title">Title</label>
+                    <label for="title"><i class="fas fa-info-circle custom-icons"></i>Title</label>
                     <input type="text" class="form-control" id="title" name="title" value="{{form.title}}"
                         maxlength="50" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="category">Category</label>
+                    <label for="category"><i class="fas fa-file custom-icons"></i>Category</label>
                     <select class="form-control" id="category" name="category" required>
                         <option>{{form.category}}</option>
 
@@ -42,7 +42,7 @@
                 <p>Please use Enter to separate ingredients from each other!</p>
 
                 <div class="form-group">
-                    <label for="ingredients">Ingredients</label>
+                    <label for="ingredients"><i class="fas fa-list-alt custom-icons"></i>Ingredients</label>
                     <textarea class="form-control" id="ingredients" name="ingredients" rows="3" maxlength="500"
                         required>{{form.ingredients}}</textarea>
                 </div>
@@ -50,7 +50,7 @@
                 <p>Please use Enter to separate method steps from each other!</p>
 
                 <div class="form-group">
-                    <label for="method">Method</label>
+                    <label for="method"><i class="fas fa-clipboard-list custom-icons"></i>Method</label>
                     <textarea class="form-control" id="method" name="method" rows="3" maxlength="1500"
                         required>{{form.method}}</textarea>
                 </div>
@@ -70,13 +70,13 @@
                 <p>Please choose JPG, GIF, PNG or BMP images:</p>
                 
                 <div class="form-group">
-                    <label for="img_link">Image URL</label>
+                    <label for="img_link"><i class="fas fa-image custom-icons"></i>Image URL</label>
                     <input type="text" class="form-control" id="img_link" name="img_link" value="{{form.img_link}}"
                         maxlength="250" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="servings">Servings</label>
+                    <label for="servings"><i class="fas fa-cheese custom-icons"></i>Servings</label>
                     <input type="number" class="form-control" id="servings" name="servings" value="{{form.servings}}"
                         min="0" max="100" required>
                 </div>
@@ -88,7 +88,7 @@
 
             <form action="{{ url_for('update_recipe_category', db_id=recipe_category._id) }}" method="POST">
                 <div class="form-group">
-                    <label for="name">Category name</label>
+                    <label for="name"><i class="fas fa-info-circle custom-icons"></i>Category name</label>
                     <input type="text" class="form-control" id="name" name="name" value="{{form.name}}" maxlength="50"
                         required>
                 </div>
@@ -96,7 +96,7 @@
                 <p>Please choose JPG, GIF, PNG or BMP images:</p>
 
                 <div class="form-group">
-                    <label for="img_link">Image URL</label>
+                    <label for="img_link"><i class="fas fa-image custom-icons"></i>Image URL</label>
                     <input type="text" class="form-control" id="img_link" name="img_link" value="{{form.img_link}}"
                         maxlength="250" requires>
                 </div>
@@ -110,13 +110,13 @@
             {% if collection %}
             <form action="{{ url_for('update_recipe', db_id=recipe._id) }}" method="POST">
                 <div class="form-group">
-                    <label for="title">Title</label>
+                    <label for="title"><i class="fas fa-info-circle custom-icons"></i>Title</label>
                     <input type="text" class="form-control" id="title" name="title" value="{{recipe.title}}"
                         maxlength="50" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="category">Category</label>
+                    <label for="category"><i class="fas fa-file custom-icons"></i>Category</label>
                     <select class="form-control" id="category" name="category" required>
                         <option selected>{{recipe.category}}</option>
                         {% for category in collection %}
@@ -128,7 +128,7 @@
                 <p>Please use Enter to separate ingredients from each other!</p>
 
                 <div class="form-group">
-                    <label for="ingredients">Ingredients</label>
+                    <label for="ingredients"><i class="fas fa-list-alt custom-icons"></i>Ingredients</label>
                     <textarea class="form-control" id="ingredients" name="ingredients" rows="3" maxlength="500"
                         required>{{recipe.ingredients|join('\n')}}</textarea>
                 </div>
@@ -136,7 +136,7 @@
                 <p>Please use Enter to separate method steps from each other!</p>
 
                 <div class="form-group">
-                    <label for="method">Method</label>
+                    <label for="method"><i class="fas fa-clipboard-list custom-icons"></i>Method</label>
                     <textarea class="form-control" id="method" name="method" rows="3" maxlength="1500"
                         required>{{recipe.method|join('\n')}}</textarea>
                 </div>
@@ -156,13 +156,13 @@
                 <p>Please choose JPG, GIF, PNG or BMP images:</p>
 
                 <div class="form-group">
-                    <label for="img_link">Image URL</label>
+                    <label for="img_link"><i class="fas fa-image custom-icons"></i>Image URL</label>
                     <input type="text" class="form-control" id="img_link" name="img_link" value="{{recipe.img_link}}"
                         maxlength="250" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="servings">Servings</label>
+                    <label for="servings"><i class="fas fa-cheese custom-icons"></i>Servings</label>
                     <input type="number" class="form-control" id="servings" name="servings" value="{{recipe.servings}}"
                         min="0" max="100" required>
                 </div>
@@ -174,7 +174,7 @@
 
             <form action="{{ url_for('update_recipe_category', db_id=recipe_category._id) }}" method="POST">
                 <div class="form-group">
-                    <label for="name">Category name</label>
+                    <label for="name"><i class="fas fa-info-circle custom-icons"></i>Category name</label>
                     <input type="text" class="form-control" id="name" name="name" value="{{recipe_category.name}}"
                         maxlength="50" required>
                 </div>
@@ -182,7 +182,7 @@
                 <p>Please choose JPG, GIF, PNG or BMP images:</p>
 
                 <div class="form-group">
-                    <label for="img_link">Image URL</label>
+                    <label for="img_link"><i class="fas fa-image custom-icons"></i>Image URL</label>
                     <input type="text" class="form-control" id="img_link" name="img_link"
                         value="{{recipe_category.img_link}}" maxlength="250" required>
                 </div>
