@@ -225,7 +225,7 @@ def search():
     elif request.args['collection'] == 'recipe_categories':
         # initializes page title and header
         page_title = 'Recipe categories'
-        page_header = 'Recipe categories search results:'
+        page_header = 'Recipe category search results:'
         
         # determines all category names in ascendent order
         get_names = mongo.db.recipe_categories.find().sort('name')
@@ -333,7 +333,7 @@ def search():
     elif request.args['collection'] == 'appliance_categories':
         # initializes page title and header
         page_title = 'Appliance categories'
-        page_header = 'Appliance categories search results:'
+        page_header = 'Appliance category search results:'
         
         # determines all category names in ascendent order
         get_names = mongo.db.appliance_categories.find().sort('name')

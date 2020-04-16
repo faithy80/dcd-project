@@ -17,29 +17,48 @@
             </div>
             {% endif %}
 
-            {% if recipe %}
+        </div>
+
+        {% if recipe %}
+        <div class="col-12 col-sm-5 text-center">
             <img src="{{recipe.img_link}}" alt="Recipe image" />
+        </div>
+
+        <div class="col-12 col-sm-7">
+
             <h2>{{recipe.title}}</h2>
 
-            <p>Category: {{recipe.category}}</p>
+            <h4>Category:</h4>
 
-            <p>Servings: {{recipe.servings}}</p>
+            {{recipe.category}}
 
-            <p>Ingredients:</p>
+            <h4>Servings:</h4>
+
+            {{recipe.servings}}
+        </div>
+
+        <div class="col-12">
+            <hr>
+
+            <h4>Ingredients:</h4>
+
             <ul>
                 {% for ingredient in recipe.ingredients %}
                 <li>{{ingredient}}</li>
                 {% endfor %}
             </ul>
 
-            <p>Method:</p>
+            <h4>Method:</h4>
+
             <ul>
                 {% for step in recipe.method %}
                 <li>{{step}}</li>
                 {% endfor %}
             </ul>
 
-            <p>Appliances used for the recipe:</p>
+
+            <h4>Appliances used for the recipe:</h4>
+
             <ul>
                 {% for category in recipe.appliances %}
                 <li>
@@ -49,8 +68,8 @@
                 {% endfor %}
             </ul>
 
+            <h4>Reviews:</h4>
 
-            <p>Reviews:</p>
             <ul>
                 {% for review in recipe.reviews %}
                 <li>{{review}}</li>
@@ -59,6 +78,8 @@
 
             <p>Viewed: {{recipe.view_stat}} times</p>
 
+            <hr>
+
             {% if form %}
             <form action="{{ url_for('add_review', db_id=recipe._id, collection='recipe') }}" method="POST">
                 <div class="form-group">
@@ -79,67 +100,6 @@
             {% else %}
 
             <form action="{{ url_for('add_review', db_id=recipe._id, collection='recipe') }}" method="POST">
-                <div class="form-group">
-                    <label for="review">Add review</label>
-                    <textarea class="form-control" id="review" name="review" rows="3" maxlength="250"
-                        required></textarea>
-                </div>
-
-                <div id="review-counter" class="float-right"></div>
-
-                <button type="submit" name="action"
-                    class="btn btn-primary btn--orange btn-inline hvr-float-shadow">Submit
-                    review</button>
-                <a type="button" href="{{request.referrer}}"
-                    class="btn btn-primary btn--orange btn-inline hvr-float-shadow">Go back</a>
-            </form>
-            {% endif %}
-
-            {% elif appliance %}
-            <img src="{{appliance.img_link}}" alt="Appliance image" />
-
-            <h2>{{appliance.brand}} {{appliance.model}}</h2>
-
-            <p>Category: {{appliance.type}}</p>
-
-            <p>Fuel type: {{appliance.fuel_type}}</p>
-
-            <p>Colour: {{appliance.colour}}</p>
-
-            <p>Description: {{appliance.description}}</p>
-
-            <p>Price: {{appliance.price}} euro</p>
-
-            <p>Reviews:</p>
-            <ul>
-                {% for review in appliance.reviews %}
-                <li>{{review}}</li>
-                {% endfor %}
-            </ul>
-
-            <p>Viewed: {{appliance.view_stat}} times</p>
-
-            {% if form %}
-            <form action="{{ url_for('add_review', db_id=appliance._id, collection='appliance') }}" method="POST">
-                <div class="form-group">
-                    <label for="review">Add review</label>
-                    <textarea class="form-control" id="review" name="review" rows="3" maxlength="250"
-                        required>{{form.review}}</textarea>
-                </div>
-
-                <div id="review-counter" class="float-right"></div>
-
-                <button type="submit" name="action"
-                    class="btn btn-primary btn--orange btn-inline hvr-float-shadow">Submit
-                    review</button>
-                <a type="button" href="{{request.referrer}}"
-                    class="btn btn-primary btn--orange btn-inline hvr-float-shadow">Go back</a>
-            </form>
-            {% else %}
-
-            {% endif %}
-
-            <form action="{{ url_for('add_review', db_id=appliance._id, collection='appliance') }}" method="POST">
                 <div class="form-group">
                     <label for="review">Add review</label>
                     <textarea class="form-control" id="review" name="review" rows="3" maxlength="250"
@@ -157,6 +117,90 @@
             {% endif %}
 
         </div>
+
+        {% elif appliance %}
+        <div class="col-12 col-sm-5 text-center">
+            <img src="{{appliance.img_link}}" alt="Appliance image" />
+        </div>
+
+        <div class="col-12 col-sm-7">
+            <h2>{{appliance.brand}} {{appliance.model}}</h2>
+
+            <h4>Category:</h4>
+
+            {{appliance.type}}
+        </div>
+
+        <div class="col-12">
+            <hr>
+
+            <h4>Fuel type:</h4>
+
+            {{appliance.fuel_type}}
+
+            <h4>Colour:</h4>
+
+            {{appliance.colour}}
+
+            <h4>Description:</h4>
+
+            {{appliance.description}}
+
+            <h4>Price:</h4>
+
+            {{appliance.price}} euro
+
+            <h4>Reviews:</h4>
+
+            <ul>
+                {% for review in appliance.reviews %}
+                <li>{{review}}</li>
+                {% endfor %}
+            </ul>
+
+            <p>Viewed: {{appliance.view_stat}} times</p>
+
+            <hr>
+
+            {% if form %}
+            <form action="{{ url_for('add_review', db_id=appliance._id, collection='appliance') }}" method="POST">
+                <div class="form-group">
+                    <label for="review">Add review</label>
+                    <textarea class="form-control" id="review" name="review" rows="3" maxlength="250"
+                        required>{{form.review}}</textarea>
+                </div>
+
+                <div id="review-counter" class="float-right"></div>
+
+                <button type="submit" name="action"
+                    class="btn btn-primary btn--orange btn-inline hvr-float-shadow">Submit
+                    review</button>
+                <a type="button" href="{{request.referrer}}"
+                    class="btn btn-primary btn--orange btn-inline hvr-float-shadow">Go back</a>
+            </form>
+            {% else %}
+
+            {% endif %}
+
+            <form action="{{ url_for('add_review', db_id=appliance._id, collection='appliance') }}" method="POST">
+                <div class="form-group">
+                    <label for="review">Add review</label>
+                    <textarea class="form-control" id="review" name="review" rows="3" maxlength="250"
+                        required></textarea>
+                </div>
+
+                <div id="review-counter" class="float-right"></div>
+
+                <button type="submit" name="action"
+                    class="btn btn-primary btn--orange btn-inline hvr-float-shadow">Submit
+                    review</button>
+                <a type="button" href="{{request.referrer}}"
+                    class="btn btn-primary btn--orange btn-inline hvr-float-shadow">Go back</a>
+            </form>
+        </div>
+
+        {% endif %}
+
     </div>
 </section>
 
