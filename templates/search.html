@@ -112,6 +112,10 @@
                 class="btn btn-primary btn--orange btn-inline hvr-float-shadow">Home</a>
             <a type="button" href="{{request.referrer}}"
                 class="btn btn-primary btn--orange btn-inline hvr-float-shadow">Go back</a>
+            <a type="button" href="{{prev}}"
+                class="btn btn-primary btn--orange btn-inline hvr-float-shadow {% if prev=='' %}disabled{% endif %}">Previous</a>
+            <a type="button" href="{{next}}"
+                class="btn btn-primary btn--orange btn-inline hvr-float-shadow {% if next=='' %}disabled{% endif %}">Next</a>
         </div>
     </div>
 </section>

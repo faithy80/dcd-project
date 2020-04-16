@@ -128,70 +128,240 @@ def index():
 def search():
     """ Returns all recipes, recipes by category, all appliances or appliances by category and both categories """
 
+    # determines the limit and the offset for the pagination
+    if 'limit' in request.args:
+        try:
+            limit = int(request.args['limit'])
+        except:
+            # default limit on error
+            limit = 4
+    else:
+        # default limit
+        limit = 4
+
+    if 'offset' in request.args:
+        try:
+            offset = int(request.args['offset'])
+        except:
+            # default offset on error
+            offset = 0
+    else:
+        # default offset
+        offset = 0
+
+    # searches for all the recipes
     if request.args['collection'] == 'recipes':
         if request.args['find'] == 'all':
             # initializes page title and header
             page_title = 'All recipes'
             page_header = 'All recipes search results:'
             
-            # returns all recipes
-            return render_template('search.html', recipes=mongo.db.recipes.find().sort('title'), page_title=page_title, page_header=page_header)
+            # determines all recipe titles in ascendent order
+            get_titles = mongo.db.recipes.find().sort('title')
+            
+            try:
+                # determines the title at the offset
+                start = get_titles[offset]['title']
+            except IndexError:
+                # returns an error page on IndexError
+                return render_template('error.html', msg='Invalid index error! (/search)')
 
+            # determines the previous link for the template
+            if offset - limit < 0:
+                prev_link = ''
+            else:
+                prev_link = '/search?collection=recipes&find=all&limit=' + str(limit) + '&offset=' + str(offset - limit)
+
+            # determines the next link for the template
+            if offset + limit >= get_titles.count():
+                next_link = ''
+            else:
+                next_link = '/search?collection=recipes&find=all&limit=' + str(limit) + '&offset=' + str(offset + limit)
+
+            # determines the subset
+            recipes = mongo.db.recipes.find({'title' : {'$gte' : start}}).sort('title').limit(limit)
+
+            # returns the subset
+            return render_template('search.html', recipes=recipes, page_title=page_title, page_header=page_header, prev=prev_link, next=next_link)
+
+        # searches for all recipes in the selected category
         else:
             # initializes page title and header
             page_title = 'Recipes by category'
-            page_header = 'Recipes by category search results:'
+            page_header = 'Recipes in the "' + request.args['find'] + '" category search results:'
             
-            # searches for recipes by category
-            recipes = mongo.db.recipes.find({"category": request.args['find']}).sort('title')
+            # determines all recipe titles in ascendent order
+            get_titles = mongo.db.recipes.find({"category": request.args['find']}).sort('title')
             
+            try:
+                # determines the title at the offset
+                start = get_titles[offset]['title']
+            except IndexError:
+                # returns an error page on IndexError
+                return render_template('error.html', msg='Invalid index error! (/search)')
+
+            # determines the previous link for the template
+            if offset - limit < 0:
+                prev_link = ''
+            else:
+                prev_link = '/search?collection=recipes&find=' + request.args['find'] + '&limit=' + str(limit) + '&offset=' + str(offset - limit)
+
+            if offset + limit >= get_titles.count():
+                next_link = ''
+            else:
+                next_link = '/search?collection=recipes&find=' + request.args['find'] + '&limit=' + str(limit) + '&offset=' + str(offset + limit)
+
+            # determines the subset
+            recipes = mongo.db.recipes.find({"category": request.args['find'], 'title' : {'$gte' : start}}).sort('title').limit(limit)
+
             if recipes.count() > 0:
-                # returns search results
-                return render_template('search.html', recipes=recipes, page_title=page_title, page_header=page_header)
+                # returns the subset
+                return render_template('search.html', recipes=recipes, page_title=page_title, page_header=page_header, prev=prev_link, next=next_link)
             else:
                 # returns an error message if there is no result
                 return render_template('error.html', msg='No results found!')
     
+    # searches for the recipe categories
     elif request.args['collection'] == 'recipe_categories':
         # initializes page title and header
         page_title = 'Recipe categories'
         page_header = 'Recipe categories search results:'
         
-        # returns all recipe categories
-        return render_template('search.html', recipe_categories=mongo.db.recipe_categories.find().sort('name'), page_title=page_title, page_header=page_header)
+        # determines all category names in ascendent order
+        get_names = mongo.db.recipe_categories.find().sort('name')
+            
+        try:
+            # determines the name at the offset
+            start = get_names[offset]['name']
+        except IndexError:
+            # returns an error page on IndexError
+            return render_template('error.html', msg='Invalid index error! (/search)')
+
+        # determines the previous link for the template
+        if offset - limit < 0:
+            prev_link = ''
+        else:
+            prev_link = '/search?collection=recipe_categories&limit=' + str(limit) + '&offset=' + str(offset - limit)
+
+        # determines the next link for the template
+        if offset + limit >= get_names.count():
+            next_link = ''
+        else:
+            next_link = '/search?collection=recipe_categories&limit=' + str(limit) + '&offset=' + str(offset + limit)
+
+        # determines the subset
+        recipe_categories = mongo.db.recipe_categories.find({'name' : {'$gte' : start}}).sort('name').limit(limit)
+
+        # returns the subset
+        return render_template('search.html', recipe_categories=recipe_categories, page_title=page_title, page_header=page_header, prev=prev_link, next=next_link)
     
+    # searches for all the appliances
     elif request.args['collection'] == 'appliances':
         if request.args['find'] == 'all':
             # initializes page title and header
             page_title = 'All appliances'
             page_header = 'All appliances search results:'
+
+            # determines all appliance brands in ascendent order
+            get_brands = mongo.db.appliances.find().sort('brand')
             
-            # returns all appliances
-            return render_template('search.html', appliances=mongo.db.appliances.find().sort('brand'), page_title=page_title, page_header=page_header)
+            try:
+                # determines the brand at the offset
+                start = get_brands[offset]['brand']
+            except IndexError:
+                # returns an error page on IndexError
+                return render_template('error.html', msg='Invalid index error! (/search)')
+
+            # determines the previous link for the template
+            if offset - limit < 0:
+                prev_link = ''
+            else:
+                prev_link = '/search?collection=appliances&find=all&limit=' + str(limit) + '&offset=' + str(offset - limit)
+
+            # determines the next link for the template
+            if offset + limit >= get_brands.count():
+                next_link = ''
+            else:
+                next_link = '/search?collection=appliances&find=all&limit=' + str(limit) + '&offset=' + str(offset + limit)
+
+            # determines the subset
+            appliances = mongo.db.appliances.find({'brand' : {'$gte' : start}}).sort('brand').limit(limit)
+            
+            # returns the subset
+            return render_template('search.html', appliances=appliances, page_title=page_title, page_header=page_header, prev=prev_link, next=next_link)
         
+        # searches for all appliances in the selected category
         else:
             # initializes page title and header
             page_title = 'Appliances by category'
-            page_header = 'Appliances by category search results:'
+            page_header = 'Appliances in the "' + request.args['find'] + '" category search results:'
 
-            # searches for appliances by category
-            appliances = mongo.db.appliances.find({"type": request.args['find']}).sort('brand')
+            # determines all appliance brands in ascendent order
+            get_brands = mongo.db.appliances.find({"type": request.args['find']}).sort('brand')
+            
+            try:
+                # determines the brand at the offset
+                start = get_brands[offset]['brand']
+            except IndexError:
+                # returns an error page on IndexError
+                return render_template('error.html', msg='Invalid index error! (/search)')
+
+            # determines the previous link for the template
+            if offset - limit < 0:
+                prev_link = ''
+            else:
+                prev_link = '/search?collection=appliances&find=' + request.args['find'] + '&limit=' + str(limit) + '&offset=' + str(offset - limit)
+
+            # determines the next link for the template
+            if offset + limit >= get_brands.count():
+                next_link = ''
+            else:
+                next_link = '/search?collection=appliances&find=' + request.args['find'] + '&limit=' + str(limit) + '&offset=' + str(offset + limit)
+
+            # determines the subset
+            appliances = mongo.db.appliances.find({"type": request.args['find'], 'brand' : {'$gte' : start}}).sort('brand').limit(limit)
             
             if appliances.count() > 0:
-                # returns search results
-                return render_template('search.html', appliances=appliances, page_title=page_title, page_header=page_header)
+                # returns the subset
+                return render_template('search.html', appliances=appliances, page_title=page_title, page_header=page_header, prev=prev_link, next=next_link)
             
             else:
                 # returns an error message if there is no result
                 return render_template('error.html', msg='No results found!')
     
+    # searches for the appliance categories
     elif request.args['collection'] == 'appliance_categories':
         # initializes page title and header
         page_title = 'Appliance categories'
         page_header = 'Appliance categories search results:'
         
-        # returns appliance categories
-        return render_template('search.html', appliance_categories=mongo.db.appliance_categories.find().sort('name'), page_title=page_title, page_header=page_header)
+        # determines all category names in ascendent order
+        get_names = mongo.db.appliance_categories.find().sort('name')
+            
+        try:
+            # determines the name at the offset
+            start = get_names[offset]['name']
+        except IndexError:
+            # returns an error page on IndexError
+            return render_template('error.html', msg='Invalid index error! (/search)')
+
+        # determines the previous link for the template
+        if offset - limit < 0:
+            prev_link = ''
+        else:
+            prev_link = '/search?collection=appliance_categories&limit=' + str(limit) + '&offset=' + str(offset - limit)
+        
+        # determines the next link for the template
+        if offset + limit >= get_names.count():
+            next_link = ''
+        else:
+            next_link = '/search?collection=appliance_categories&limit=' + str(limit) + '&offset=' + str(offset + limit)
+
+        # determines the subset
+        appliance_categories = mongo.db.appliance_categories.find({'name' : {'$gte' : start}}).sort('name').limit(limit)
+
+        # returns the subset
+        return render_template('search.html', appliance_categories=appliance_categories, page_title=page_title, page_header=page_header, prev=prev_link, next=next_link)
     
     else:
         # returns an error message on incorrect argument
