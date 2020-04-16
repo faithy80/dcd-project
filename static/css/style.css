@@ -35,7 +35,7 @@
     top: 50%;
 }
 
-.callout h3{
+.callout h3 {
     padding-bottom: 3rem;
 }
 
@@ -131,7 +131,7 @@
     width: 15%;
 }
 
-.footer-container a i{
+.footer-container a i {
     padding: 1rem 1rem 2rem 1rem;
     font-size: 2rem;
     transition: color 0.5s ease;

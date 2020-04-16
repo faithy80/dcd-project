@@ -78,7 +78,7 @@ def validate_form(form, collection):
         if not form['review'] or len(form['review']) > max_review:
             error_list.append('Review must not be empty or more than {} characters!'.format(max_review))
 
-    # returns errors if there is any        
+    # returns errors on an empty list       
     return error_list
 
 
@@ -132,6 +132,7 @@ def search():
     if 'limit' in request.args:
         try:
             limit = int(request.args['limit'])
+        
         except:
             # default limit on error
             limit = 4
@@ -142,6 +143,7 @@ def search():
     if 'offset' in request.args:
         try:
             offset = int(request.args['offset'])
+        
         except:
             # default offset on error
             offset = 0
@@ -162,6 +164,7 @@ def search():
             try:
                 # determines the title at the offset
                 start = get_titles[offset]['title']
+            
             except IndexError:
                 # returns an error page on IndexError
                 return render_template('error.html', msg='Invalid index error! (/search)')
@@ -169,12 +172,14 @@ def search():
             # determines the previous link for the template
             if offset - limit < 0:
                 prev_link = ''
+            
             else:
                 prev_link = '/search?collection=recipes&find=all&limit=' + str(limit) + '&offset=' + str(offset - limit)
 
             # determines the next link for the template
             if offset + limit >= get_titles.count():
                 next_link = ''
+            
             else:
                 next_link = '/search?collection=recipes&find=all&limit=' + str(limit) + '&offset=' + str(offset + limit)
 
@@ -196,6 +201,7 @@ def search():
             try:
                 # determines the title at the offset
                 start = get_titles[offset]['title']
+            
             except IndexError:
                 # returns an error page on IndexError
                 return render_template('error.html', msg='Invalid index error! (/search)')
@@ -203,11 +209,13 @@ def search():
             # determines the previous link for the template
             if offset - limit < 0:
                 prev_link = ''
+            
             else:
                 prev_link = '/search?collection=recipes&find=' + request.args['find'] + '&limit=' + str(limit) + '&offset=' + str(offset - limit)
 
             if offset + limit >= get_titles.count():
                 next_link = ''
+            
             else:
                 next_link = '/search?collection=recipes&find=' + request.args['find'] + '&limit=' + str(limit) + '&offset=' + str(offset + limit)
 
@@ -217,6 +225,7 @@ def search():
             if recipes.count() > 0:
                 # returns the subset
                 return render_template('search.html', recipes=recipes, page_title=page_title, page_header=page_header, prev=prev_link, next=next_link)
+            
             else:
                 # returns an error message if there is no result
                 return render_template('error.html', msg='No results found!')
@@ -233,6 +242,7 @@ def search():
         try:
             # determines the name at the offset
             start = get_names[offset]['name']
+        
         except IndexError:
             # returns an error page on IndexError
             return render_template('error.html', msg='Invalid index error! (/search)')
@@ -240,12 +250,14 @@ def search():
         # determines the previous link for the template
         if offset - limit < 0:
             prev_link = ''
+        
         else:
             prev_link = '/search?collection=recipe_categories&limit=' + str(limit) + '&offset=' + str(offset - limit)
 
         # determines the next link for the template
         if offset + limit >= get_names.count():
             next_link = ''
+        
         else:
             next_link = '/search?collection=recipe_categories&limit=' + str(limit) + '&offset=' + str(offset + limit)
 
@@ -268,6 +280,7 @@ def search():
             try:
                 # determines the brand at the offset
                 start = get_brands[offset]['brand']
+            
             except IndexError:
                 # returns an error page on IndexError
                 return render_template('error.html', msg='Invalid index error! (/search)')
@@ -275,12 +288,14 @@ def search():
             # determines the previous link for the template
             if offset - limit < 0:
                 prev_link = ''
+            
             else:
                 prev_link = '/search?collection=appliances&find=all&limit=' + str(limit) + '&offset=' + str(offset - limit)
 
             # determines the next link for the template
             if offset + limit >= get_brands.count():
                 next_link = ''
+            
             else:
                 next_link = '/search?collection=appliances&find=all&limit=' + str(limit) + '&offset=' + str(offset + limit)
 
@@ -302,6 +317,7 @@ def search():
             try:
                 # determines the brand at the offset
                 start = get_brands[offset]['brand']
+            
             except IndexError:
                 # returns an error page on IndexError
                 return render_template('error.html', msg='Invalid index error! (/search)')
@@ -309,12 +325,14 @@ def search():
             # determines the previous link for the template
             if offset - limit < 0:
                 prev_link = ''
+            
             else:
                 prev_link = '/search?collection=appliances&find=' + request.args['find'] + '&limit=' + str(limit) + '&offset=' + str(offset - limit)
 
             # determines the next link for the template
             if offset + limit >= get_brands.count():
                 next_link = ''
+            
             else:
                 next_link = '/search?collection=appliances&find=' + request.args['find'] + '&limit=' + str(limit) + '&offset=' + str(offset + limit)
 
@@ -341,6 +359,7 @@ def search():
         try:
             # determines the name at the offset
             start = get_names[offset]['name']
+        
         except IndexError:
             # returns an error page on IndexError
             return render_template('error.html', msg='Invalid index error! (/search)')
@@ -348,12 +367,14 @@ def search():
         # determines the previous link for the template
         if offset - limit < 0:
             prev_link = ''
+        
         else:
             prev_link = '/search?collection=appliance_categories&limit=' + str(limit) + '&offset=' + str(offset - limit)
         
         # determines the next link for the template
         if offset + limit >= get_names.count():
             next_link = ''
+        
         else:
             next_link = '/search?collection=appliance_categories&limit=' + str(limit) + '&offset=' + str(offset + limit)
 
@@ -369,7 +390,7 @@ def search():
 
 
 @app.route('/', methods=['POST'])
-@app.route('/navsearch', methods=['POST'])
+@app.route('/navsearch', methods=['GET','POST'])
 def navsearch():
     """ Returns ingredient search results """
 
@@ -377,13 +398,78 @@ def navsearch():
     page_title = 'Ingredient search'
     page_header = 'Ingredient search results:'
 
-    # regex search
-    search_text = re.compile(request.form.get('search'), re.IGNORECASE)
-    recipes = mongo.db.recipes.find({'ingredients': {'$in': [search_text]}}).sort('title')
+    # determines the limit and the offset for the pagination
+    if 'limit' in request.args:
+        try:
+            limit = int(request.args['limit'])
+        
+        except:
+            # default limit on error
+            limit = 4
+    else:
+        # default limit
+        limit = 4
 
+    if 'offset' in request.args:
+        try:
+            offset = int(request.args['offset'])
+        
+        except:
+            # default offset on error
+            offset = 0
+    else:
+        # default offset
+        offset = 0
+
+    # determines if search data comes from GET or POST method
+    if request.method == 'GET':
+        if 'find' in request.args:
+            # search text in case if argument exists
+            find_text = request.args['find']
+        
+        else:
+            # returns error template
+            return render_template('error.html', msg='Bad argument error! (/navsearch)')
+    
+    elif request.method == 'POST':
+        # search text from the request form
+        find_text = request.form.get('search')
+
+    else:
+        # returns error template
+        return render_template('error.html', msg='Unhandled method error! (/navsearch)')
+
+    # determines all recipe titles in ascendent order
+    search_text = re.compile(find_text, re.IGNORECASE)
+    get_titles = mongo.db.recipes.find({'ingredients': {'$in': [search_text]}}).sort('title')
+
+    try:
+        # determines the title at the offset
+        start = get_titles[offset]['title']
+    
+    except IndexError:
+        # returns an error page on IndexError
+        return render_template('error.html', msg='Invalid index error! (/navsearch)')
+
+    # determines the previous link for the template
+    if offset - limit < 0:
+        prev_link = ''
+    
+    else:
+        prev_link = '/navsearch?find=' + find_text + '&limit=' + str(limit) + '&offset=' + str(offset - limit)
+
+    if offset + limit >= get_titles.count():
+        next_link = ''
+    
+    else:
+        next_link = '/navsearch?find=' + find_text + '&limit=' + str(limit) + '&offset=' + str(offset + limit)
+
+    # determines the subset
+    recipes = mongo.db.recipes.find({'ingredients': {'$in': [search_text]}, 'title' : {'$gte' : start}}).sort('title').limit(limit)
+    
     if recipes.count() > 0:
-        # returns the results
-        return render_template('navsearch.html', recipes=recipes, page_title=page_title, page_header=page_header)
+        # returns the subset
+        return render_template('navsearch.html', recipes=recipes, page_title=page_title, page_header=page_header, prev=prev_link, next=next_link)
     
     else:
         # returns to an error message if there is no reult
