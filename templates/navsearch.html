@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<!-- Search section -->
+<!-- Navsearch section -->
 <section class="container-fluid navsearch-container">
     <div class="row">
 
@@ -24,14 +24,29 @@
         </div>
 
         {% endfor %}
-        <div class="col-12">
-            <a type="button" href="{{ url_for('index') }}"
-                class="btn btn-primary btn--orange btn-inline hvr-float-shadow">Home</a>
-            <a type="button" href="{{request.referrer}}"
-                class="btn btn-primary btn--orange btn-inline hvr-float-shadow">Go back</a>
-            <a type="button" href="{{prev}}"
+        <div class="d-none d-sm-inline col-12">
+            <a href="{{ url_for('index') }}" class="btn btn-primary btn--orange btn-inline hvr-float-shadow">Home</a>
+
+            <a href="{{request.referrer}}" class="btn btn-primary btn--orange btn-inline hvr-float-shadow">Go back</a>
+
+            <a href="{{prev}}"
                 class="btn btn-primary btn--orange btn-inline hvr-float-shadow {% if prev=='' %}disabled{% endif %}">Previous</a>
-            <a type="button" href="{{next}}"
+
+            <a href="{{next}}"
+                class="btn btn-primary btn--orange btn-inline hvr-float-shadow {% if next=='' %}disabled{% endif %}">Next</a>
+        </div>
+
+        <div class="col-12 d-sm-none text-center">
+            <a href="{{ url_for('index') }}" class="btn btn-primary btn--orange btn-inline hvr-float-shadow">Home</a>
+
+            <a href="{{request.referrer}}" class="btn btn-primary btn--orange btn-inline hvr-float-shadow">Go back</a>
+        </div>
+
+        <div class="col-12 d-sm-none text-center">
+            <a href="{{prev}}"
+                class="btn btn-primary btn--orange btn-inline hvr-float-shadow {% if prev=='' %}disabled{% endif %}">Previous</a>
+
+            <a href="{{next}}"
                 class="btn btn-primary btn--orange btn-inline hvr-float-shadow {% if next=='' %}disabled{% endif %}">Next</a>
         </div>
     </div>

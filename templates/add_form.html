@@ -2,6 +2,7 @@
 
 {% block content %}
 
+<!-- Addform section -->
 <section class="container-fluid addform-container">
     <div class="row">
         <div class="col-12">
@@ -22,12 +23,14 @@
             <form action="{{ url_for('insert_recipe') }}" method="POST">
                 <div class="form-group">
                     <label for="title"><i class="fas fa-info-circle custom-icons"></i>Title</label>
+
                     <input type="text" class="form-control" id="title" name="title" value="{{form.title}}"
                         maxlength="50" required>
                 </div>
 
                 <div class="form-group">
                     <label for="category"><i class="fas fa-file custom-icons"></i>Category</label>
+
                     <select class="form-control" id="category" name="category" required>
                         <option>{{form.category}}</option>
 
@@ -42,6 +45,7 @@
 
                 <div class="form-group">
                     <label for="ingredients"><i class="fas fa-list-alt custom-icons"></i>Ingredients</label>
+
                     <textarea class="form-control" id="ingredients" name="ingredients" rows="3" maxlength="500"
                         required>{{form.ingredients}}</textarea>
                 </div>
@@ -52,6 +56,7 @@
 
                 <div class="form-group">
                     <label for="method"><i class="fas fa-clipboard-list custom-icons"></i>Method</label>
+
                     <textarea class="form-control" id="method" name="method" rows="3" maxlength="1500"
                         required>{{form.method}}</textarea>
                 </div>
@@ -74,12 +79,14 @@
 
                 <div class="form-group">
                     <label for="img_link"><i class="fas fa-image custom-icons"></i>Image URL</label>
+
                     <input type="text" class="form-control" id="img_link" name="img_link" value="{{form.img_link}}"
                         maxlength="250" required>
                 </div>
 
                 <div class="form-group">
                     <label for="servings"><i class="fas fa-cheese custom-icons"></i>Servings</label>
+
                     <input type="number" class="form-control" id="servings" name="servings" value="{{form.servings}}"
                         min="0" max="100" required>
                 </div>
@@ -87,8 +94,9 @@
                 <button type="submit" name="action"
                     class="btn btn-primary btn--orange btn-inline hvr-float-shadow">Submit
                     recipe</button>
-                <a type="button" href="{{request.referrer}}"
-                    class="btn btn-primary btn--orange btn-inline hvr-float-shadow">Go back</a>
+
+                <a href="{{request.referrer}}" class="btn btn-primary btn--orange btn-inline hvr-float-shadow">Go
+                    back</a>
             </form>
 
             {% else %}
@@ -96,6 +104,7 @@
             <form action="{{ url_for('insert_recipe_category') }}" method="POST">
                 <div class="form-group">
                     <label for="name"><i class="fas fa-info-circle custom-icons"></i>Category name</label>
+
                     <input type="text" class="form-control" id="name" name="name" value="{{form.name}}" maxlength="50"
                         required>
                 </div>
@@ -104,6 +113,7 @@
 
                 <div class="form-group">
                     <label for="img_link"><i class="fas fa-image custom-icons"></i>Image URL</label>
+
                     <input type="text" class="form-control" id="img_link" name="img_link" value="{{form.img_link}}"
                         maxlength="250" requires>
                 </div>
@@ -111,8 +121,9 @@
                 <button type="submit" name="action"
                     class="btn btn-primary btn--orange btn-inline hvr-float-shadow">Submit
                     category</button>
-                <a type="button" href="{{request.referrer}}"
-                    class="btn btn-primary btn--orange btn-inline hvr-float-shadow">Go back</a>
+
+                <a href="{{request.referrer}}" class="btn btn-primary btn--orange btn-inline hvr-float-shadow">Go
+                    back</a>
             </form>
             {% endif %}
 
@@ -122,11 +133,13 @@
             <form action="{{ url_for('insert_recipe') }}" method="POST">
                 <div class="form-group">
                     <label for="title"><i class="fas fa-info-circle custom-icons"></i>Title</label>
+
                     <input type="text" class="form-control" id="title" name="title" maxlength="50" required>
                 </div>
 
                 <div class="form-group">
                     <label for="category"><i class="fas fa-file custom-icons"></i>Category</label>
+
                     <select class="form-control" id="category" name="category" required>
 
                         {% for category in collection %}
@@ -140,6 +153,7 @@
 
                 <div class="form-group">
                     <label for="ingredients"><i class="fas fa-list-alt custom-icons"></i>Ingredients</label>
+
                     <textarea class="form-control" id="ingredients" name="ingredients" rows="3" maxlength="500"
                         required></textarea>
                 </div>
@@ -150,6 +164,7 @@
 
                 <div class="form-group">
                     <label for="method"><i class="fas fa-clipboard-list custom-icons"></i>Method</label>
+
                     <textarea class="form-control" id="method" name="method" rows="3" maxlength="1500"
                         required></textarea>
                 </div>
@@ -171,19 +186,22 @@
 
                 <div class="form-group">
                     <label for="img_link"><i class="fas fa-image custom-icons"></i>Image URL</label>
+
                     <input type="text" class="form-control" id="img_link" name="img_link" maxlength="250" required>
                 </div>
 
                 <div class="form-group">
                     <label for="servings"><i class="fas fa-cheese custom-icons"></i>Servings</label>
+
                     <input type="number" class="form-control" id="servings" name="servings" min="0" max="100" required>
                 </div>
 
                 <button type="submit" name="action"
                     class="btn btn-primary btn--orange btn-inline hvr-float-shadow">Submit
                     recipe</button>
-                <a type="button" href="{{request.referrer}}"
-                    class="btn btn-primary btn--orange btn-inline hvr-float-shadow">Go back</a>
+
+                <a href="{{request.referrer}}" class="btn btn-primary btn--orange btn-inline hvr-float-shadow">Go
+                    back</a>
             </form>
 
             {% else %}
@@ -191,6 +209,7 @@
             <form action="{{ url_for('insert_recipe_category') }}" method="POST">
                 <div class="form-group">
                     <label for="name"><i class="fas fa-info-circle custom-icons"></i>Category name</label>
+
                     <input type="text" class="form-control" id="name" name="name" maxlength="50" required>
                 </div>
 
@@ -198,14 +217,16 @@
 
                 <div class="form-group">
                     <label for="img_link"><i class="fas fa-image custom-icons"></i>Image URL</label>
+
                     <input type="text" class="form-control" id="img_link" name="img_link" maxlength="250" requires>
                 </div>
 
                 <button type="submit" name="action"
                     class="btn btn-primary btn--orange btn-inline hvr-float-shadow">Submit
                     category</button>
-                <a type="button" href="{{request.referrer}}"
-                    class="btn btn-primary btn--orange btn-inline hvr-float-shadow">Go back</a>
+
+                <a href="{{request.referrer}}" class="btn btn-primary btn--orange btn-inline hvr-float-shadow">Go
+                    back</a>
             </form>
             {% endif %}
 

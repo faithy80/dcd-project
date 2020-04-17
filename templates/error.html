@@ -2,6 +2,7 @@
 
 {% block content %}
 
+<!-- Error section -->
 <div class="container-fluid error-container">
     <div class="row">
         <div class="col-12">
@@ -16,10 +17,8 @@
 
             {% endif %}
 
-            <a type="button" href="{{ url_for('index') }}"
-                class="btn btn-primary btn--orange btn-inline hvr-float-shadow">Home</a>
-            <a type="button" href="{{request.referrer}}"
-                class="btn btn-primary btn--orange btn-inline hvr-float-shadow">Go back</a>
+            <a href="{{ url_for('index') }}" class="btn btn-primary btn--orange btn-inline hvr-float-shadow">Home</a>
+            <a href="{{request.referrer}}" class="btn btn-primary btn--orange btn-inline hvr-float-shadow">Go back</a>
         </div>
     </div>
 </div>

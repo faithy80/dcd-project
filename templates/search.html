@@ -25,8 +25,9 @@
                     <div class="card-button">
                         <a href="{{ url_for('edit_form', db_id=recipe._id, collection='recipe') }}"
                             class="btn btn-primary btn--orange">Edit</a>
+
                         <button type="button" class="btn btn-primary btn--orange"
-                            onclick="confirmMessage('recipe', '{{recipe._id}}')">Delete</a>
+                            onclick="confirmMessage('recipe', '{{recipe._id}}')">Delete</button>
                     </div>
                 </div>
             </div>
@@ -53,6 +54,7 @@
                     <div class="card-button">
                         <a href="{{ url_for('edit_form', db_id=category._id, collection='recipe_category') }}"
                             class="btn btn-primary btn--orange">Edit</a>
+
                         <button type="button" class="btn btn-primary btn--orange"
                             onclick="confirmMessage('recipe category', '{{category._id}}')">Delete</button>
                     </div>
@@ -72,7 +74,6 @@
 
                 <div class="card-body text-center">
                     <h5 class="card-title">
-
                         <a href="{{ url_for('view', db_id=appliance._id, collection='appliances') }}"
                             class="btn btn-link">{{appliance.brand}} {{appliance.model}}</a>
                     </h5>
@@ -107,14 +108,29 @@
 
         {% endif %}
 
-        <div class="col-12">
-            <a type="button" href="{{ url_for('index') }}"
-                class="btn btn-primary btn--orange btn-inline hvr-float-shadow">Home</a>
-            <a type="button" href="{{request.referrer}}"
-                class="btn btn-primary btn--orange btn-inline hvr-float-shadow">Go back</a>
-            <a type="button" href="{{prev}}"
+        <div class="d-none d-sm-inline col-12">
+            <a href="{{ url_for('index') }}" class="btn btn-primary btn--orange btn-inline hvr-float-shadow">Home</a>
+
+            <a href="{{request.referrer}}" class="btn btn-primary btn--orange btn-inline hvr-float-shadow">Go back</a>
+
+            <a href="{{prev}}"
                 class="btn btn-primary btn--orange btn-inline hvr-float-shadow {% if prev=='' %}disabled{% endif %}">Previous</a>
-            <a type="button" href="{{next}}"
+
+            <a href="{{next}}"
+                class="btn btn-primary btn--orange btn-inline hvr-float-shadow {% if next=='' %}disabled{% endif %}">Next</a>
+        </div>
+
+        <div class="col-12 d-sm-none text-center">
+            <a href="{{ url_for('index') }}" class="btn btn-primary btn--orange btn-inline hvr-float-shadow">Home</a>
+
+            <a href="{{request.referrer}}" class="btn btn-primary btn--orange btn-inline hvr-float-shadow">Go back</a>
+        </div>
+
+        <div class="col-12 d-sm-none text-center">
+            <a href="{{prev}}"
+                class="btn btn-primary btn--orange btn-inline hvr-float-shadow {% if prev=='' %}disabled{% endif %}">Previous</a>
+
+            <a href="{{next}}"
                 class="btn btn-primary btn--orange btn-inline hvr-float-shadow {% if next=='' %}disabled{% endif %}">Next</a>
         </div>
     </div>
