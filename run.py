@@ -1,5 +1,3 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
 import os
 from flask import Flask, render_template, request, url_for, redirect
 from flask_pymongo import PyMongo
@@ -243,7 +241,7 @@ def search():
                 page_title=page_title,
                 page_header=page_header,
                 prev=prev_link,
-                next=next_link,
+                next=next_link
                 )
         else:
 
@@ -307,7 +305,7 @@ def search():
                     page_title=page_title,
                     page_header=page_header,
                     prev=prev_link,
-                    next=next_link,
+                    next=next_link
                     )
             else:
 
@@ -371,7 +369,7 @@ def search():
             page_title=page_title,
             page_header=page_header,
             prev=prev_link,
-            next=next_link,
+            next=next_link
             )
     elif request.args['collection'] == 'appliances':
 
@@ -434,7 +432,7 @@ def search():
                 page_title=page_title,
                 page_header=page_header,
                 prev=prev_link,
-                next=next_link,
+                next=next_link
                 )
         else:
 
@@ -500,7 +498,7 @@ def search():
                     page_title=page_title,
                     page_header=page_header,
                     prev=prev_link,
-                    next=next_link,
+                    next=next_link
                     )
             else:
 
@@ -566,7 +564,7 @@ def search():
             page_title=page_title,
             page_header=page_header,
             prev=prev_link,
-            next=next_link,
+            next=next_link
             )
     else:
 
@@ -696,7 +694,7 @@ def navsearch():
             page_title=page_title,
             page_header=page_header,
             prev=prev_link,
-            next=next_link,
+            next=next_link
             )
     else:
 
@@ -807,7 +805,7 @@ def edit_form(db_id):
             categories=mongo.db.appliance_categories.find().sort('name'
                     ),
             page_title=page_title,
-            page_header=page_header,
+            page_header=page_header
             )
     elif request.args['collection'] == 'recipe_category':
 
@@ -856,8 +854,8 @@ def insert_recipe():
             'appliances': request.form.getlist('appliance_categories'),
             'img_link': image_URL,
             'reviews': [],
-            'servings': request.form.get('servings'),
-            'view_stat': 0,
+            'servings': int(request.form.get('servings')),
+            'view_stat': 0
             }
         mongo.db.recipes.insert_one(recipe)
 
@@ -886,7 +884,7 @@ def insert_recipe():
             form=form,
             appliance_list=appliance_list,
             page_title=page_title,
-            page_header=page_header,
+            page_header=page_header
             )
 
 
@@ -960,7 +958,7 @@ def update_recipe(db_id):
             'method': request.form.get('method').split('\n'),
             'appliances': request.form.getlist('appliance_categories'),
             'img_link': image_URL,
-            'servings': request.form.get('servings'),
+            'servings': int(request.form.get('servings'))
             }})
 
         # updates counter in the old category (the recipe was taken from)
@@ -993,7 +991,7 @@ def update_recipe(db_id):
             form=form,
             appliance_list=appliance_list,
             page_title=page_title,
-            page_header=page_header,
+            page_header=page_header
             )
 
 
@@ -1047,7 +1045,7 @@ def update_recipe_category(db_id):
             errors=error_list,
             form=form,
             page_title=page_title,
-            page_header=page_header,
+            page_header=page_header
             )
 
 
