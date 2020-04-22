@@ -25,16 +25,19 @@
         </div>
 
         <div class="col-12 col-sm-7">
-
             <h2>{{recipe.title}}</h2>
 
-            <h4>Category:</h4>
+            <h4>Category: {{recipe.category}}</h4>
 
-            {{recipe.category}}
+            <h4>Servings: {{recipe.servings}}</h4>
 
-            <h4>Servings:</h4>
+            <div>
+                <a href="{{ url_for('edit_form', db_id=recipe._id, collection='recipe') }}"
+                    class="btn btn-link">Edit</a>
 
-            {{recipe.servings}}
+                <button type="button" class="btn btn-link"
+                    onclick="confirmMessage('recipe', '{{recipe._id}}')">Delete</button>
+            </div>
         </div>
 
         <div class="col-12">
@@ -212,5 +215,6 @@
 </section>
 
 <script src="{{ url_for('static', filename='js/review.js') }}" defer></script>
+<script src="{{ url_for('static', filename='js/search.js') }}" defer></script>
 
 {% endblock %}
