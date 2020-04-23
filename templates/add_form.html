@@ -31,7 +31,7 @@
                 <div class="form-group">
                     <label for="category"><i class="fas fa-file custom-icons"></i>Category</label>
 
-                    <select class="form-control" id="category" name="category" required>
+                    <select class="form-control" id="category" name="category">
                         <option>{{form.category}}</option>
 
                         {% for category in collection %}
@@ -115,7 +115,7 @@
                     <label for="img_link"><i class="fas fa-image custom-icons"></i>Image URL</label>
 
                     <input type="text" class="form-control" id="img_link" name="img_link" value="{{form.img_link}}"
-                        maxlength="250" requires>
+                        maxlength="250" required>
                 </div>
 
                 <button type="submit" name="action"
@@ -140,7 +140,7 @@
                 <div class="form-group">
                     <label for="category"><i class="fas fa-file custom-icons"></i>Category</label>
 
-                    <select class="form-control" id="category" name="category" required>
+                    <select class="form-control" id="category" name="category">
 
                         {% for category in collection %}
                         <option>{{category.name}}</option>
@@ -218,7 +218,7 @@
                 <div class="form-group">
                     <label for="img_link"><i class="fas fa-image custom-icons"></i>Image URL</label>
 
-                    <input type="text" class="form-control" id="img_link" name="img_link" maxlength="250" requires>
+                    <input type="text" class="form-control" id="img_link" name="img_link" maxlength="250" required>
                 </div>
 
                 <button type="submit" name="action"
