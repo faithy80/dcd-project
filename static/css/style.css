@@ -206,6 +206,11 @@
     padding-bottom: 0;
 }
 
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    filter: invert(1);
+}
+
 .page-header {
     font-weight: bold;
     margin-top: 6rem;
